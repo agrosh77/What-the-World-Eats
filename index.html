@@ -1,0 +1,361 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>What the World Eats?</title>
+
+    <!-- EXTERNAL STYLESHEETS: BOOTSTRAP AND HEADER FONT -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+	
+	<!-- LEAFLET: INTERACTIVE MAP STYLES -->
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- WEBSITE STYLING -->
+    <style>
+        /* GENERAL COLORS AND TYPOGRAPHY */
+        body {
+            background-color: #FAF8F2;
+            color: #24476A;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        h2, h3, h4, h5, h6 {
+            color: #254E46;
+        }
+
+        /* HEADER STYLING */
+        .site-header {
+            background-color: #254E46;
+            color: #F2DEBB;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .site-header h1 {
+            font-family: 'Lilita One', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: normal;
+        }
+
+        /* FOOD COLLAGE BANNER */
+        .food-banner {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .food-banner img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* NAVIGATION STYLING */
+        .navbar {
+            background-color: #E9D9B8;
+        }
+
+        .navbar .nav-link {
+            color: #254E46;
+            font-weight: 600;
+            margin: 0 12px;
+        }
+
+        /* INTRODUCTION STYLING */
+        .intro-section {
+            background-color: #E9D9B8;
+            padding: 45px 0;
+        }
+
+        /* SHARED MAP SECTION STYLING */
+        .map-section {
+            padding: 50px 0;
+        }
+
+        .map-section h2 {
+            color: #254E46;
+            font-family: 'Lilita One', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 25px;
+        }
+
+        /* MAP PLACEHOLDER FRAMES: REPLACE WITH OUR AMAZING LEAFLET MAPS LATER */
+        .map-placeholder {
+            height: 420px;
+            border: 5px solid #762E43;
+            background-color: #F4EBD8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #24476A;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+        }
+		
+		/* MAP 2: LEAFLET DISPLAY */
+#map2-map {
+    display: block;
+}
+
+        /* MAP SIDEBARS: SELECTION OPTIONS LIKE RADIO BUTTONS, DROPDOWN, ETC */
+        .map-sidebar {
+            background-color: #F4EBD8;
+            padding: 25px;
+            border-radius: 8px;
+            height: 100%;
+        }
+
+        /* CUTE DECORATIVE  DIVIDERS */
+        .section-divider {
+            background-color: #E9D9B8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            padding: 18px 8%;
+        }
+
+        .divider-line {
+            height: 2px;
+            background-color: #762E43;
+            flex: 1;
+        }
+
+        .divider-icon {
+            width: 32px;
+            height: 32px;
+            color: #762E43;
+            flex-shrink: 0;
+        }
+
+        /* FOOTER STYLING */
+        footer {
+            background-color: #254E46;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER: WEBSITE TITLE AND DESCRIPTION -->
+    <header class="site-header">
+        <h1>What the World Eats?</h1>
+        <p>
+            An interactive journey through food, geography, history, and culture.<br>
+            Discover what the world eats, explore global food patterns, and follow the fascinating journeys of your favorite foods!<br>
+            Created by Ashley Grosh and Marcus Reidy
+        </p>
+    </header>
+
+    <!-- FOOD COLLAGE BANNER -->
+    <div class="food-banner">
+        <img src="food header.png"
+             alt="A colorful collage of foods from around the world"
+             class="img-fluid w-100">
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+        <div class="container">
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNav"
+                    aria-controls="mainNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="#map1">Explore Foods</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#map2">Food Patterns</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#map3">Food History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#sources">Sources</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- INTRODUCTION: EDUCATIONAL PURPOSE AND INSTRUCTIONS -->
+    <section class="intro-section">
+        <div class="container">
+            <h2>Welcome to Our Global Table!</h2>
+            <p>
+                Food connects us through geography, history,
+                agriculture, trade, and cultural exchange.
+                Explore the stories behind the foods we eat
+                through three interactive maps.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAP 1: THE GLOBAL FOOD EXPLORER (MARCUS) -->
+    <section id="map1" class="map-section">
+        <div class="container">
+            <h2>The Global Food Explorer</h2>
+            <div class="row g-4">
+                <!-- MAP 1 PLACEHOLDER AND EXPLANATORY TEXT -->
+                <div class="col-lg-8">
+                    <div class="map-placeholder">Interactive Map 1 Coming Soon</div>
+                    <div class="mt-4">
+                        <p>
+                            Explore how geography, culture, and history shape
+                            culinary traditions around the world. Select a
+                            country to discover traditional dishes, staple foods,
+                            and the ingredients that connect communities.
+                        </p>
+                    </div>
+                </div>
+                <!-- MAP 1 SIDEBAR: COUNTRY SELECTION -->
+                <div class="col-lg-4">
+                    <div class="map-sidebar">
+                        <h3>Explore by Country</h3>
+                        <p>Select a country to discover its traditional dishes, staple foods, and culinary influences.</p>
+                        <p>Country dropdown will go here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DECORATIVE DIVIDER BETWEEN MAPS 1 AND 2 -->
+    <div class="section-divider" aria-hidden="true">
+        <span class="divider-line"></span>
+        <svg class="divider-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18"/>
+            <path d="M20 21V3c-4 2-5 7-5 11h5"/>
+        </svg>
+        <span class="divider-line"></span>
+    </div>
+
+
+<!-- MAP 2: GLOBAL FOOD PATTERNS (ASHLEY) -->
+<section id="map2" class="map-section">
+    <div class="container">
+
+        <h2>Global Food Patterns</h2>
+
+        <div class="row g-4">
+
+            <!-- MAP 2: LEAFLET MAP AND DESCRIPTION -->
+            <div class="col-lg-8">
+
+                <div id="map2-map"
+                     class="map-placeholder"
+                     role="region"
+                     aria-label="Interactive world map showing global food statistics">
+                </div>
+
+                <div class="mt-4">
+                    <p>
+                        Explore how food availability and agricultural
+                        production differ around the world.
+                        Compare countries and discover patterns
+                        in the foods that shape our diets.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- MAP 2: STATISTICS SIDEBAR -->
+            <div class="col-lg-4">
+                <div class="map-sidebar">
+
+                    <h3>Compare Food Statistics</h3>
+
+                    <p>
+                        Explore differences in food supply,
+                        production, and calorie availability
+                        around the world.
+                    </p>
+
+                    <!-- RADIO BUTTON CONTROLS WILL GO HERE -->
+                    <p>Radio-button controls will go here.</p>
+
+                    <!-- DYNAMIC LEGEND WILL GO HERE -->
+
+                    <!-- ACCESSIBLE DATA SUMMARY WILL GO HERE -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+    <!-- DECORATIVE DIVIDER BETWEEN MAPS 2 AND 3 -->
+    <div class="section-divider" aria-hidden="true">
+        <span class="divider-line"></span>
+        <svg class="divider-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18"/>
+            <path d="M20 21V3c-4 2-5 7-5 11h5"/>
+        </svg>
+        <span class="divider-line"></span>
+    </div>
+
+    <!-- MAP 3: FOODS ON THE MOVE (ASHLEY) -->
+    <section id="map3" class="map-section">
+        <div class="container">
+            <h2>Foods on the Move</h2>
+            <div class="row g-4">
+                <!-- MAP 3 PLACEHOLDER -->
+                <div class="col-lg-8">
+                    <div class="map-placeholder">Interactive Map 3 Coming Soon</div>
+                </div>
+                <!-- MAP 3 SIDEBAR: ILLUSTRATED FOOD BUTTONS -->
+                <div class="col-lg-4">
+                    <div class="map-sidebar">
+                        <h3>Follow the Ingredients</h3>
+                        <p>Discover how familiar foods traveled across continents through migration, trade, and cultural exchange.</p>
+                        <p>Illustrated food buttons will go here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER: SOURCES, CREDITS, AND ACCESSIBILITY INFORMATION -->
+    <footer id="sources">
+        <div class="container">
+            <p>What the World Eats?</p>
+            <p>An educational resource by Ashley Grosh and Marcus Reidy</p>
+            <p>Sources, credits, and accessibility information coming soon.</p>
+        </div>
+    </footer>
+
+    <!-- BOOTSTRAP JAVASCRIPT: RESPONSIVE NAVIGATION -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+	
+	
+	
+	
+<!-- LEAFLET: INTERACTIVE MAP LIBRARY -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<!-- MAP 2: GLOBAL FOOD PATTERNS -->
+<script src="js/map2.js"></script>
+
+	
+	
+	
+	
+	
+</body>
+</html>
