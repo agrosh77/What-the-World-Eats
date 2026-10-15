@@ -139,3 +139,56 @@ Promise.all([
 
 // Confirm that Map 2 loaded successfully
 console.log('Map 2 loaded successfully!');
+
+
+
+/* ==========================================
+   MAP 2: CHOROPLETH LEGEND
+   ========================================== */
+
+// Create a Leaflet legend in the bottom-left corner
+const meatLegend = L.control({ position: 'bottomleft' });
+
+meatLegend.onAdd = function () {
+    const div = L.DomUtil.create('div', 'food-map-legend');
+
+    div.innerHTML = `
+        <div class="legend-title">Meat Calorie Supply</div>
+        <div class="legend-subtitle">kcal/person/day (2023)</div>
+
+        <div class="legend-item">
+            <span class="legend-color" style="background:#EFF3FF"></span>
+            <span>0–100</span>
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-color" style="background:#BDD7E7"></span>
+            <span>&gt;100–200</span>
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-color" style="background:#6BAED6"></span>
+            <span>&gt;200–350</span>
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-color" style="background:#3182BD"></span>
+            <span>&gt;350–500</span>
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-color" style="background:#08519C"></span>
+            <span>&gt;500</span>
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-color" style="background:#D9D9D9"></span>
+            <span>No data</span>
+        </div>
+    `;
+
+    return div;
+};
+
+meatLegend.addTo(foodMap);
+
