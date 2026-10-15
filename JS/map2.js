@@ -96,15 +96,32 @@ function updateFoodMap() {
 
     });
 
-    // Update the explanatory text
-    const description =
-        document.getElementById('map2-description');
+    /* ==========================================
+   MAP 2: EDUCATIONAL DESCRIPTIONS
+   ========================================== */
 
-    if (description) {
-        description.textContent =
-            'Showing 2023 data for ' +
-            selectedFood.toLowerCase() + '.';
-    }
+const descriptions = {
+    'All meat':
+        'How much of the world’s daily food energy comes from meat? ' +
+        'Explore how the availability of meat differs between countries. ' +
+        'These figures measure calories available per person each day, ' +
+        'not necessarily how much people actually eat.',
+
+    'Fruit':
+        'Do people around the world have the same access to fruit? ' +
+        'Explore how fruit availability differs between countries ' +
+        'and think about how geography, agriculture, and trade ' +
+        'might influence these patterns.'
+};
+
+const description =
+    document.getElementById('map2-description');
+
+if (description) {
+    description.textContent =
+        descriptions[selectedFood] ||
+        'Explore global food patterns using 2023 data.';
+}
 
 }
 
