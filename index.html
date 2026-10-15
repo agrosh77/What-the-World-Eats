@@ -340,13 +340,44 @@
                         around the world.
                     </p>
 
-                    <!-- RADIO BUTTON CONTROLS WILL GO HERE -->
-                    <p>Radio-button controls will go here.</p>
+                    <!-- MAP 2: FOOD CATEGORY RADIO BUTTONS -->
+<fieldset id="map2-controls" class="mt-3">
 
-                    <!-- DYNAMIC LEGEND WILL GO HERE -->
+    <legend class="fs-6 fw-bold">
+        Choose a Food Category
+    </legend>
 
-                    <!-- ACCESSIBLE DATA SUMMARY WILL GO HERE -->
+    <div class="form-check">
+        <input class="form-check-input"
+               type="radio"
+               name="foodCategory"
+               id="meatRadio"
+               value="All meat"
+               checked>
 
+        <label class="form-check-label" for="meatRadio">
+            All Meat
+        </label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input"
+               type="radio"
+               name="foodCategory"
+               id="fruitRadio"
+               value="Fruit">
+
+        <label class="form-check-label" for="fruitRadio">
+            Fruit
+        </label>
+    </div>
+
+</fieldset>
+
+<!-- MAP 2: CURRENT CATEGORY DESCRIPTION -->
+<p id="map2-description" class="mt-3">
+    Showing daily calorie supply from all meat, 2023.
+</p>
                 </div>
             </div>
 
