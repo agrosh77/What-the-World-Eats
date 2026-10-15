@@ -28,17 +28,24 @@ L.tileLayer(
    ========================================== */
 
 // Color scale: light to dark blue
+
+/* ==========================================
+   MAP 2: COLORBLIND-FRIENDLY CHOROPLETH COLORS
+   ColorBrewer Blues - 5 classes
+   ========================================== */
+
 function getMeatColor(value) {
     if (value === null || !Number.isFinite(value)) {
-        return '#D9D9D9';
+        return '#D9D9D9'; // No data
     }
 
-    if (value > 500) return '#24476A';
-    if (value > 350) return '#426C8B';
-    if (value > 200) return '#7196AF';
-    if (value > 100) return '#A6C3D3';
-    return '#DCEAF0';
+    if (value > 500) return '#08519C';
+    if (value > 350) return '#3182BD';
+    if (value > 200) return '#6BAED6';
+    if (value > 100) return '#BDD7E7';
+    return '#EFF3FF';
 }
+
 
 // Load the food data and country boundaries together
 Promise.all([
