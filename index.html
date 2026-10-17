@@ -252,6 +252,46 @@
 
 
 
+/* ==========================================
+   MAP 3: EMOJI FOOD SELECTION BUTTONS
+   ========================================== */
+
+.map3-food-btn {
+    width: 100%;
+    padding: 10px 5px;
+    background-color: #FAF8F2;
+    color: #254E46;
+    border: 2px solid #B58438;
+    border-radius: 6px;
+    font-family: Verdana, sans-serif;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.map3-food-btn:hover {
+    background-color: #E9D9B8;
+}
+
+.map3-food-btn.active {
+    background-color: #254E46;
+    color: white;
+    border-color: #254E46;
+}
+
+.map3-food-btn:focus-visible {
+    outline: 3px solid #24476A;
+    outline-offset: 3px;
+}
+
+
+
+
+
+		
+
+
 
 
 
@@ -558,9 +598,62 @@
                     <div class="map-sidebar">
                         <h3>Follow the Ingredients</h3>
                         <p>Discover how familiar foods traveled across continents through migration, trade, and cultural exchange.</p>
+
+
+
+<!-- MAP 3: FOOD SELECTION BUTTONS -->
+<div id="map3-food-controls" class="row g-2 mt-3">
+
+    <div class="col-6">
+        <button type="button" class="map3-food-btn active"
+                data-food="potato" aria-pressed="true">
+            🥔 Potatoes
+        </button>
+    </div>
+
+    <div class="col-6">
+        <button type="button" class="map3-food-btn"
+                data-food="tomato" aria-pressed="false">
+            🍅 Tomatoes
+        </button>
+    </div>
+
+    <div class="col-6">
+        <button type="button" class="map3-food-btn"
+                data-food="cacao" aria-pressed="false">
+            🍫 Cacao
+        </button>
+    </div>
+
+    <div class="col-6">
+        <button type="button" class="map3-food-btn"
+                data-food="coffee" aria-pressed="false">
+            ☕ Coffee
+        </button>
+    </div>
+
+    <div class="col-6">
+        <button type="button" class="map3-food-btn"
+                data-food="apple" aria-pressed="false">
+            🍎 Apples
+        </button>
+    </div>
+
+    <div class="col-6">
+        <button type="button" class="map3-food-btn"
+                data-food="corn" aria-pressed="false">
+            🌽 Corn
+        </button>
+    </div>
+
+</div>
+
+
+						
                         <!-- MAP 3: BOTANICAL DISTRIBUTION LEGEND -->
 <div class="mt-4" aria-label="Map 3 distribution legend">
-    <h4 class="fs-6 fw-bold">Potato Distribution</h4>
+    <h4 id="map3-legend-title" class="fs-6 fw-bold">
+    Potato Distribution   </h4>
 
     <div class="d-flex align-items-center gap-2 mb-2">
         <span style="display:inline-block; width:22px; height:16px;
