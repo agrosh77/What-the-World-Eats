@@ -1,0 +1,334 @@
+﻿food_id,iso_a3,distribution_status,native_kew_regions,introduced_kew_regions,mapping_note
+apple,AFG,Native,Afghanistan,,Country generalized from Kew regions; not a whole-country claim.
+apple,ALB,Introduced,,Albania,Country generalized from Kew regions; not a whole-country claim.
+apple,ARG,Introduced,,Argentina Northeast; Argentina South,Country generalized from Kew regions; not a whole-country claim.
+apple,AUS,Introduced,,New South Wales; Tasmania; Victoria,Country generalized from Kew regions; not a whole-country claim.
+apple,BEL,Introduced,,Belgium,Country generalized from Kew regions; not a whole-country claim.
+apple,BGR,Introduced,,Bulgaria,Country generalized from Kew regions; not a whole-country claim.
+apple,BLR,Introduced,,Belarus,Country generalized from Kew regions; not a whole-country claim.
+apple,CAN,Introduced,,British Columbia; Manitoba; New Brunswick; Newfoundland; Nova Scotia; Ontario; Prince Edward I.; Québec,Country generalized from Kew regions; not a whole-country claim.
+apple,CHN,Native,Qinghai; Xinjiang,,Country generalized from Kew regions; not a whole-country claim.
+apple,CYP,Introduced,,Cyprus,Country generalized from Kew regions; not a whole-country claim.
+apple,DEU,Introduced,,Germany,Country generalized from Kew regions; not a whole-country claim.
+apple,DNK,Introduced,,Denmark,Country generalized from Kew regions; not a whole-country claim.
+apple,ECU,Introduced,,Ecuador,Country generalized from Kew regions; not a whole-country claim.
+apple,ESP,Introduced,,Baleares; Spain,Country generalized from Kew regions; not a whole-country claim.
+apple,FIN,Introduced,,Finland,Country generalized from Kew regions; not a whole-country claim.
+apple,FRA,Introduced,,France,Country generalized from Kew regions; not a whole-country claim.
+apple,GBR,Introduced,,Great Britain,Country generalized from Kew regions; not a whole-country claim.
+apple,GRC,Introduced,,Greece,Country generalized from Kew regions; not a whole-country claim.
+apple,HUN,Introduced,,Hungary,Country generalized from Kew regions; not a whole-country claim.
+apple,IRL,Introduced,,Ireland,Country generalized from Kew regions; not a whole-country claim.
+apple,IRQ,Introduced,,Iraq,Country generalized from Kew regions; not a whole-country claim.
+apple,ITA,Introduced,,Italy,Country generalized from Kew regions; not a whole-country claim.
+apple,KAZ,Native,Kazakhstan,,Country generalized from Kew regions; not a whole-country claim.
+apple,KGZ,Native,Kirgizstan,,Country generalized from Kew regions; not a whole-country claim.
+apple,NLD,Introduced,,Netherlands,Country generalized from Kew regions; not a whole-country claim.
+apple,NOR,Introduced,,Norway,Country generalized from Kew regions; not a whole-country claim.
+apple,NPL,Introduced,,Nepal,Country generalized from Kew regions; not a whole-country claim.
+apple,PAK,Native,Pakistan,,Country generalized from Kew regions; not a whole-country claim.
+apple,POL,Introduced,,Poland,Country generalized from Kew regions; not a whole-country claim.
+apple,PRT,Introduced,,Azores; Madeira,Country generalized from Kew regions; not a whole-country claim.
+apple,ROU,Introduced,,Romania,Country generalized from Kew regions; not a whole-country claim.
+apple,RUS,Introduced,,Central European Russia; East European Russia; South European Russia; West Siberia,Country generalized from Kew regions; not a whole-country claim.
+apple,SWE,Introduced,,Sweden,Country generalized from Kew regions; not a whole-country claim.
+apple,TJK,Native,Tadzhikistan,,Country generalized from Kew regions; not a whole-country claim.
+apple,TKM,Introduced,,Turkmenistan,Country generalized from Kew regions; not a whole-country claim.
+apple,UKR,Introduced,,Ukraine,Country generalized from Kew regions; not a whole-country claim.
+apple,USA,Introduced,,Alabama; Alaska; Arkansas; California; Colorado; Connecticut; Delaware; District of Columbia; Georgia; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oregon; Pennsylvania; Rhode I.; South Carolina; Tennessee; Utah; Vermont; Virginia; West Virginia; Wisconsin; Wyoming,Country generalized from Kew regions; not a whole-country claim.
+apple,UZB,Native,Uzbekistan,,Country generalized from Kew regions; not a whole-country claim.
+cacao,BLZ,Introduced,,Belize,Country generalized from Kew regions; not a whole-country claim.
+cacao,BOL,Introduced,,Bolivia,Country generalized from Kew regions; not a whole-country claim.
+cacao,BRA,Native,Brazil North,Brazil Northeast,Country generalized from Kew regions; not a whole-country claim. BOTH native and introduced records exist for different regions; map defaults to Native; review.
+cacao,CHN,Introduced,,China South-Central; Hainan,Country generalized from Kew regions; not a whole-country claim.
+cacao,CIV,Introduced,,Ivory Coast,Country generalized from Kew regions; not a whole-country claim.
+cacao,CMR,Introduced,,Cameroon,Country generalized from Kew regions; not a whole-country claim.
+cacao,COD,Introduced,,DR Congo,Country generalized from Kew regions; not a whole-country claim.
+cacao,COL,Native,Colombia,,Country generalized from Kew regions; not a whole-country claim.
+cacao,COM,Introduced,,Comoros,Country generalized from Kew regions; not a whole-country claim.
+cacao,CRI,Native,Costa Rica,,Country generalized from Kew regions; not a whole-country claim.
+cacao,CUB,Introduced,,Cuba,Country generalized from Kew regions; not a whole-country claim.
+cacao,DOM,Introduced,,Dominican Republic,Country generalized from Kew regions; not a whole-country claim.
+cacao,ECU,Native,Ecuador,,Country generalized from Kew regions; not a whole-country claim.
+cacao,FJI,Introduced,,Fiji,Country generalized from Kew regions; not a whole-country claim.
+cacao,GHA,Introduced,,Ghana,Country generalized from Kew regions; not a whole-country claim.
+cacao,GIN,Introduced,,Guinea,Country generalized from Kew regions; not a whole-country claim.
+cacao,GTM,Introduced,,Guatemala,Country generalized from Kew regions; not a whole-country claim.
+cacao,GUF,Native,French Guiana,,Country generalized from Kew regions; not a whole-country claim.
+cacao,GUY,Native,Guyana,,Country generalized from Kew regions; not a whole-country claim.
+cacao,HND,Introduced,,Honduras,Country generalized from Kew regions; not a whole-country claim.
+cacao,HTI,Introduced,,Haiti,Country generalized from Kew regions; not a whole-country claim.
+cacao,IDN,Introduced,,Sumatera,Country generalized from Kew regions; not a whole-country claim.
+cacao,IND,Introduced,,Andaman Is.; Nicobar Is.,Country generalized from Kew regions; not a whole-country claim.
+cacao,JAM,Introduced,,Jamaica,Country generalized from Kew regions; not a whole-country claim.
+cacao,LAO,Introduced,,Laos,Country generalized from Kew regions; not a whole-country claim.
+cacao,LKA,Introduced,,Sri Lanka,Country generalized from Kew regions; not a whole-country claim.
+cacao,MEX,Introduced,,Mexico Southeast; Mexico Southwest,Country generalized from Kew regions; not a whole-country claim.
+cacao,NGA,Introduced,,Nigeria,Country generalized from Kew regions; not a whole-country claim.
+cacao,PER,Native,Peru,,Country generalized from Kew regions; not a whole-country claim.
+cacao,PRI,Introduced,,Puerto Rico,Country generalized from Kew regions; not a whole-country claim.
+cacao,SLV,Introduced,,El Salvador,Country generalized from Kew regions; not a whole-country claim.
+cacao,SUR,Native,Suriname,,Country generalized from Kew regions; not a whole-country claim.
+cacao,SYC,Introduced,,Seychelles,Country generalized from Kew regions; not a whole-country claim.
+cacao,TGO,Introduced,,Togo,Country generalized from Kew regions; not a whole-country claim.
+cacao,TTO,Introduced,,Trinidad-Tobago,Country generalized from Kew regions; not a whole-country claim.
+cacao,VEN,Native,Venezuela,,Country generalized from Kew regions; not a whole-country claim.
+cacao,VNM,Introduced,,Vietnam,Country generalized from Kew regions; not a whole-country claim.
+cacao,VUT,Introduced,,Vanuatu,Country generalized from Kew regions; not a whole-country claim.
+coffee,BGD,Introduced,,Bangladesh,Country generalized from Kew regions; not a whole-country claim.
+coffee,BLZ,Introduced,,Belize,Country generalized from Kew regions; not a whole-country claim.
+coffee,BMU,Introduced,,Bermuda,Country generalized from Kew regions; not a whole-country claim.
+coffee,BOL,Introduced,,Bolivia,Country generalized from Kew regions; not a whole-country claim.
+coffee,BRA,Introduced,,Brazil North; Brazil Northeast; Brazil South; Brazil Southeast; Brazil West-Central,Country generalized from Kew regions; not a whole-country claim.
+coffee,CHN,Introduced,,China South-Central; China Southeast; Hainan,Country generalized from Kew regions; not a whole-country claim.
+coffee,COD,Introduced,,DR Congo,Country generalized from Kew regions; not a whole-country claim.
+coffee,COG,Introduced,,Congo,Country generalized from Kew regions; not a whole-country claim.
+coffee,COL,Introduced,,Colombia,Country generalized from Kew regions; not a whole-country claim.
+coffee,COM,Introduced,,Comoros,Country generalized from Kew regions; not a whole-country claim.
+coffee,CRI,Introduced,,Costa Rica,Country generalized from Kew regions; not a whole-country claim.
+coffee,CUB,Introduced,,Cuba,Country generalized from Kew regions; not a whole-country claim.
+coffee,DOM,Introduced,,Dominican Republic,Country generalized from Kew regions; not a whole-country claim.
+coffee,ECU,Introduced,,Ecuador; Galápagos,Country generalized from Kew regions; not a whole-country claim.
+coffee,ESP,Introduced,,Canary Is.,Country generalized from Kew regions; not a whole-country claim.
+coffee,ETH,Native,Ethiopia,,Country generalized from Kew regions; not a whole-country claim.
+coffee,FJI,Introduced,,Fiji,Country generalized from Kew regions; not a whole-country claim.
+coffee,GAB,Introduced,,Gabon,Country generalized from Kew regions; not a whole-country claim.
+coffee,GIN,Introduced,,Guinea,Country generalized from Kew regions; not a whole-country claim.
+coffee,GNB,Introduced,,Guinea-Bissau,Country generalized from Kew regions; not a whole-country claim.
+coffee,GTM,Introduced,,Guatemala,Country generalized from Kew regions; not a whole-country claim.
+coffee,HND,Introduced,,Honduras,Country generalized from Kew regions; not a whole-country claim.
+coffee,HTI,Introduced,,Haiti,Country generalized from Kew regions; not a whole-country claim.
+coffee,IDN,Introduced,,Sumatera,Country generalized from Kew regions; not a whole-country claim.
+coffee,IND,Introduced,,Andaman Is.,Country generalized from Kew regions; not a whole-country claim.
+coffee,JAM,Introduced,,Jamaica,Country generalized from Kew regions; not a whole-country claim.
+coffee,JPN,Introduced,,Ogasawara-shoto,Country generalized from Kew regions; not a whole-country claim.
+coffee,KEN,Native,Kenya,,Country generalized from Kew regions; not a whole-country claim.
+coffee,MEX,Introduced,,Mexico Central; Mexico Southeast; Mexico Southwest,Country generalized from Kew regions; not a whole-country claim.
+coffee,MHL,Introduced,,Marshall Is.,Country generalized from Kew regions; not a whole-country claim.
+coffee,MMR,Introduced,,Myanmar,Country generalized from Kew regions; not a whole-country claim.
+coffee,MWI,Introduced,,Malawi,Country generalized from Kew regions; not a whole-country claim.
+coffee,NCL,Introduced,,New Caledonia,Country generalized from Kew regions; not a whole-country claim.
+coffee,NIC,Introduced,,Nicaragua,Country generalized from Kew regions; not a whole-country claim.
+coffee,PAN,Introduced,,Panamá,Country generalized from Kew regions; not a whole-country claim.
+coffee,PER,Introduced,,Peru,Country generalized from Kew regions; not a whole-country claim.
+coffee,PRI,Introduced,,Puerto Rico,Country generalized from Kew regions; not a whole-country claim.
+coffee,RWA,Introduced,,Rwanda,Country generalized from Kew regions; not a whole-country claim.
+coffee,SLV,Introduced,,El Salvador,Country generalized from Kew regions; not a whole-country claim.
+coffee,TTO,Introduced,,Trinidad-Tobago,Country generalized from Kew regions; not a whole-country claim.
+coffee,TWN,Introduced,,Taiwan,Country generalized from Kew regions; not a whole-country claim.
+coffee,USA,Introduced,,Hawaii,Country generalized from Kew regions; not a whole-country claim.
+coffee,VEN,Introduced,,Venezuela,Country generalized from Kew regions; not a whole-country claim.
+coffee,VUT,Introduced,,Vanuatu,Country generalized from Kew regions; not a whole-country claim.
+coffee,WSM,Introduced,,Samoa,Country generalized from Kew regions; not a whole-country claim.
+corn,ABW,Introduced,,Aruba,Country generalized from Kew regions; not a whole-country claim.
+corn,AFG,Introduced,,Afghanistan,Country generalized from Kew regions; not a whole-country claim.
+corn,AGO,Introduced,,Angola,Country generalized from Kew regions; not a whole-country claim.
+corn,ALB,Introduced,,Albania,Country generalized from Kew regions; not a whole-country claim.
+corn,ARG,Introduced,,Argentina Northeast,Country generalized from Kew regions; not a whole-country claim.
+corn,AUS,Introduced,,Queensland; Western Australia,Country generalized from Kew regions; not a whole-country claim.
+corn,AUT,Introduced,,Austria,Country generalized from Kew regions; not a whole-country claim.
+corn,BDI,Introduced,,Burundi,Country generalized from Kew regions; not a whole-country claim.
+corn,BEL,Introduced,,Belgium,Country generalized from Kew regions; not a whole-country claim.
+corn,BEN,Introduced,,Benin,Country generalized from Kew regions; not a whole-country claim.
+corn,BFA,Introduced,,Burkina,Country generalized from Kew regions; not a whole-country claim.
+corn,BGD,Introduced,,Bangladesh,Country generalized from Kew regions; not a whole-country claim.
+corn,BGR,Introduced,,Bulgaria,Country generalized from Kew regions; not a whole-country claim.
+corn,BHS,Introduced,,Bahamas,Country generalized from Kew regions; not a whole-country claim.
+corn,BLR,Introduced,,Belarus,Country generalized from Kew regions; not a whole-country claim.
+corn,BLZ,Introduced,,Belize,Country generalized from Kew regions; not a whole-country claim.
+corn,BOL,Introduced,,Bolivia,Country generalized from Kew regions; not a whole-country claim.
+corn,BRA,Introduced,,Brazil North; Brazil Northeast; Brazil South; Brazil Southeast; Brazil West-Central,Country generalized from Kew regions; not a whole-country claim.
+corn,CAF,Introduced,,Central African Republic,Country generalized from Kew regions; not a whole-country claim.
+corn,CAN,Introduced,,Ontario; Québec,Country generalized from Kew regions; not a whole-country claim.
+corn,CHE,Introduced,,Switzerland,Country generalized from Kew regions; not a whole-country claim.
+corn,CHN,Introduced,,China North-Central; China South-Central; China Southeast; Hainan; Manchuria,Country generalized from Kew regions; not a whole-country claim.
+corn,CIV,Introduced,,Ivory Coast,Country generalized from Kew regions; not a whole-country claim.
+corn,CMR,Introduced,,Cameroon,Country generalized from Kew regions; not a whole-country claim.
+corn,COD,Introduced,,DR Congo,Country generalized from Kew regions; not a whole-country claim.
+corn,COL,Introduced,,Colombia,Country generalized from Kew regions; not a whole-country claim.
+corn,COM,Introduced,,Comoros,Country generalized from Kew regions; not a whole-country claim.
+corn,CRI,Introduced,,Costa Rica,Country generalized from Kew regions; not a whole-country claim.
+corn,CUB,Introduced,,Cuba,Country generalized from Kew regions; not a whole-country claim.
+corn,CYP,Introduced,,Cyprus,Country generalized from Kew regions; not a whole-country claim.
+corn,DEU,Introduced,,Germany,Country generalized from Kew regions; not a whole-country claim.
+corn,DJI,Introduced,,Djibouti,Country generalized from Kew regions; not a whole-country claim.
+corn,DOM,Introduced,,Dominican Republic,Country generalized from Kew regions; not a whole-country claim.
+corn,DZA,Introduced,,Algeria,Country generalized from Kew regions; not a whole-country claim.
+corn,ECU,Introduced,,Ecuador; Galápagos,Country generalized from Kew regions; not a whole-country claim.
+corn,EGY,Introduced,,Egypt,Country generalized from Kew regions; not a whole-country claim.
+corn,ESP,Introduced,,Baleares; Canary Is.; Spain,Country generalized from Kew regions; not a whole-country claim.
+corn,ETH,Introduced,,Ethiopia,Country generalized from Kew regions; not a whole-country claim.
+corn,FJI,Introduced,,Fiji,Country generalized from Kew regions; not a whole-country claim.
+corn,FRA,Introduced,,Corse; France,Country generalized from Kew regions; not a whole-country claim.
+corn,GBR,Introduced,,Great Britain,Country generalized from Kew regions; not a whole-country claim.
+corn,GHA,Introduced,,Ghana,Country generalized from Kew regions; not a whole-country claim.
+corn,GIN,Introduced,,Guinea,Country generalized from Kew regions; not a whole-country claim.
+corn,GMB,Introduced,,Gambia,Country generalized from Kew regions; not a whole-country claim.
+corn,GNB,Introduced,,Guinea-Bissau,Country generalized from Kew regions; not a whole-country claim.
+corn,GNQ,Introduced,,Equatorial Guinea,Country generalized from Kew regions; not a whole-country claim.
+corn,GRC,Introduced,,Greece; Kriti,Country generalized from Kew regions; not a whole-country claim.
+corn,GTM,Native,Guatemala,,Country generalized from Kew regions; not a whole-country claim.
+corn,GUF,Introduced,,French Guiana,Country generalized from Kew regions; not a whole-country claim.
+corn,HND,Introduced,,Honduras,Country generalized from Kew regions; not a whole-country claim.
+corn,HTI,Introduced,,Haiti,Country generalized from Kew regions; not a whole-country claim.
+corn,HUN,Introduced,,Hungary,Country generalized from Kew regions; not a whole-country claim.
+corn,IDN,Introduced,,Jawa; Maluku; Sumatera,Country generalized from Kew regions; not a whole-country claim.
+corn,IND,Introduced,,Andaman Is.; Assam; India,Country generalized from Kew regions; not a whole-country claim.
+corn,IRL,Introduced,,Ireland,Country generalized from Kew regions; not a whole-country claim.
+corn,IRQ,Introduced,,Iraq,Country generalized from Kew regions; not a whole-country claim.
+corn,ITA,Introduced,,Italy; Sardegna; Sicilia,Country generalized from Kew regions; not a whole-country claim.
+corn,JAM,Introduced,,Jamaica,Country generalized from Kew regions; not a whole-country claim.
+corn,JPN,Introduced,,Japan; Nansei-shoto,Country generalized from Kew regions; not a whole-country claim.
+corn,KAZ,Introduced,,Kazakhstan,Country generalized from Kew regions; not a whole-country claim.
+corn,KGZ,Introduced,,Kirgizstan,Country generalized from Kew regions; not a whole-country claim.
+corn,KHM,Introduced,,Cambodia,Country generalized from Kew regions; not a whole-country claim.
+corn,LAO,Introduced,,Laos,Country generalized from Kew regions; not a whole-country claim.
+corn,LKA,Introduced,,Sri Lanka,Country generalized from Kew regions; not a whole-country claim.
+corn,MAR,Introduced,,Morocco,Country generalized from Kew regions; not a whole-country claim.
+corn,MDG,Introduced,,Madagascar,Country generalized from Kew regions; not a whole-country claim.
+corn,MEX,Native,Mexico Central; Mexico Southwest,Mexico Gulf; Mexico Northeast; Mexico Northwest; Mexico Southeast,Country generalized from Kew regions; not a whole-country claim. BOTH native and introduced records exist for different regions; map defaults to Native; review.
+corn,MHL,Introduced,,Marshall Is.,Country generalized from Kew regions; not a whole-country claim.
+corn,MLI,Introduced,,Mali,Country generalized from Kew regions; not a whole-country claim.
+corn,MMR,Introduced,,Myanmar,Country generalized from Kew regions; not a whole-country claim.
+corn,MOZ,Introduced,,Mozambique,Country generalized from Kew regions; not a whole-country claim.
+corn,MUS,Introduced,,Mauritius,Country generalized from Kew regions; not a whole-country claim.
+corn,MYS,Introduced,,Malaya,Country generalized from Kew regions; not a whole-country claim.
+corn,NCL,Introduced,,New Caledonia,Country generalized from Kew regions; not a whole-country claim.
+corn,NER,Introduced,,Niger,Country generalized from Kew regions; not a whole-country claim.
+corn,NGA,Introduced,,Nigeria,Country generalized from Kew regions; not a whole-country claim.
+corn,NIC,Introduced,,Nicaragua,Country generalized from Kew regions; not a whole-country claim.
+corn,NIU,Introduced,,Niue,Country generalized from Kew regions; not a whole-country claim.
+corn,NLD,Introduced,,Netherlands,Country generalized from Kew regions; not a whole-country claim.
+corn,NPL,Introduced,,Nepal,Country generalized from Kew regions; not a whole-country claim.
+corn,OMN,Introduced,,Oman,Country generalized from Kew regions; not a whole-country claim.
+corn,PAK,Introduced,,Pakistan,Country generalized from Kew regions; not a whole-country claim.
+corn,PAN,Introduced,,Panamá,Country generalized from Kew regions; not a whole-country claim.
+corn,PER,Introduced,,Peru,Country generalized from Kew regions; not a whole-country claim.
+corn,PHL,Introduced,,Philippines,Country generalized from Kew regions; not a whole-country claim.
+corn,POL,Introduced,,Poland,Country generalized from Kew regions; not a whole-country claim.
+corn,PRI,Introduced,,Puerto Rico,Country generalized from Kew regions; not a whole-country claim.
+corn,PRT,Introduced,,Azores; Portugal,Country generalized from Kew regions; not a whole-country claim.
+corn,REU,Introduced,,Réunion,Country generalized from Kew regions; not a whole-country claim.
+corn,ROU,Introduced,,Romania,Country generalized from Kew regions; not a whole-country claim.
+corn,RUS,Introduced,,Amur; Central European Russia; East European Russia; Khabarovsk; Northwest European Russia; Primorye; Sakhalin; South European Russia,Country generalized from Kew regions; not a whole-country claim.
+corn,RWA,Introduced,,Rwanda,Country generalized from Kew regions; not a whole-country claim.
+corn,SLE,Introduced,,Sierra Leone,Country generalized from Kew regions; not a whole-country claim.
+corn,SOM,Introduced,,Somalia,Country generalized from Kew regions; not a whole-country claim.
+corn,SYC,Introduced,,Seychelles,Country generalized from Kew regions; not a whole-country claim.
+corn,TCD,Introduced,,Chad,Country generalized from Kew regions; not a whole-country claim.
+corn,TGO,Introduced,,Togo,Country generalized from Kew regions; not a whole-country claim.
+corn,THA,Introduced,,Thailand,Country generalized from Kew regions; not a whole-country claim.
+corn,TJK,Introduced,,Tadzhikistan,Country generalized from Kew regions; not a whole-country claim.
+corn,TKM,Introduced,,Turkmenistan,Country generalized from Kew regions; not a whole-country claim.
+corn,TTO,Introduced,,Trinidad-Tobago,Country generalized from Kew regions; not a whole-country claim.
+corn,TUN,Introduced,,Tunisia,Country generalized from Kew regions; not a whole-country claim.
+corn,TUR,Introduced,,Türkiye; Türkiye-in-Europe,Country generalized from Kew regions; not a whole-country claim.
+corn,TZA,Introduced,,Tanzania,Country generalized from Kew regions; not a whole-country claim.
+corn,UKR,Introduced,,Ukraine,Country generalized from Kew regions; not a whole-country claim.
+corn,URY,Introduced,,Uruguay,Country generalized from Kew regions; not a whole-country claim.
+corn,USA,Introduced,,Alabama; Arizona; Arkansas; California; Colorado; Connecticut; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; Ohio; Oregon; Pennsylvania; Rhode I.; South Carolina; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming,Country generalized from Kew regions; not a whole-country claim.
+corn,UZB,Introduced,,Uzbekistan,Country generalized from Kew regions; not a whole-country claim.
+corn,VEN,Introduced,,Venezuelan Antilles,Country generalized from Kew regions; not a whole-country claim.
+corn,VNM,Introduced,,Vietnam,Country generalized from Kew regions; not a whole-country claim.
+corn,VUT,Introduced,,Vanuatu,Country generalized from Kew regions; not a whole-country claim.
+corn,WSM,Introduced,,Samoa,Country generalized from Kew regions; not a whole-country claim.
+corn,YEM,Introduced,,Yemen,Country generalized from Kew regions; not a whole-country claim.
+corn,ZMB,Introduced,,Zambia,Country generalized from Kew regions; not a whole-country claim.
+potato,ARG,Native,Argentina Northwest; Argentina South,,Country generalized from Kew regions; not a whole-country claim.
+potato,BEL,Introduced,,Belgium,Country generalized from Kew regions; not a whole-country claim.
+potato,BGD,Introduced,,Bangladesh,Country generalized from Kew regions; not a whole-country claim.
+potato,BOL,Native,Bolivia,,Country generalized from Kew regions; not a whole-country claim.
+potato,CHL,Native,Chile Central; Chile North; Chile South,,Country generalized from Kew regions; not a whole-country claim.
+potato,COD,Introduced,,DR Congo,Country generalized from Kew regions; not a whole-country claim.
+potato,COL,Native,Colombia,,Country generalized from Kew regions; not a whole-country claim.
+potato,DEU,Introduced,,Germany,Country generalized from Kew regions; not a whole-country claim.
+potato,DOM,Introduced,,Dominican Republic,Country generalized from Kew regions; not a whole-country claim.
+potato,ECU,Native,Ecuador,,Country generalized from Kew regions; not a whole-country claim.
+potato,ESP,Introduced,,Canary Is.,Country generalized from Kew regions; not a whole-country claim.
+potato,FRA,Introduced,,France,Country generalized from Kew regions; not a whole-country claim.
+potato,GBR,Introduced,,Great Britain,Country generalized from Kew regions; not a whole-country claim.
+potato,HTI,Introduced,,Haiti,Country generalized from Kew regions; not a whole-country claim.
+potato,IND,Introduced,,Assam; India,Country generalized from Kew regions; not a whole-country claim.
+potato,IRL,Introduced,,Ireland,Country generalized from Kew regions; not a whole-country claim.
+potato,LAO,Introduced,,Laos,Country generalized from Kew regions; not a whole-country claim.
+potato,PER,Native,Peru,,Country generalized from Kew regions; not a whole-country claim.
+potato,RUS,Introduced,,East European Russia; South European Russia,Country generalized from Kew regions; not a whole-country claim.
+potato,TJK,Introduced,,Tadzhikistan,Country generalized from Kew regions; not a whole-country claim.
+potato,USA,Introduced,,Hawaii; Illinois; Maryland; Minnesota; New York,Country generalized from Kew regions; not a whole-country claim.
+potato,UZB,Introduced,,Uzbekistan,Country generalized from Kew regions; not a whole-country claim.
+potato,VEN,Native,Venezuela,,Country generalized from Kew regions; not a whole-country claim.
+potato,VNM,Introduced,,Vietnam,Country generalized from Kew regions; not a whole-country claim.
+tomato,AGO,Introduced,,Angola,Country generalized from Kew regions; not a whole-country claim.
+tomato,AUT,Introduced,,Austria,Country generalized from Kew regions; not a whole-country claim.
+tomato,BEN,Introduced,,Benin,Country generalized from Kew regions; not a whole-country claim.
+tomato,BFA,Introduced,,Burkina,Country generalized from Kew regions; not a whole-country claim.
+tomato,BGD,Introduced,,Bangladesh,Country generalized from Kew regions; not a whole-country claim.
+tomato,BGR,Introduced,,Bulgaria,Country generalized from Kew regions; not a whole-country claim.
+tomato,BHS,Introduced,,Bahamas,Country generalized from Kew regions; not a whole-country claim.
+tomato,BLR,Introduced,,Belarus,Country generalized from Kew regions; not a whole-country claim.
+tomato,BOL,Introduced,,Bolivia,Country generalized from Kew regions; not a whole-country claim.
+tomato,CAF,Introduced,,Central African Republic,Country generalized from Kew regions; not a whole-country claim.
+tomato,CAN,Introduced,,British Columbia; New Brunswick; Nova Scotia; Ontario; Québec; Saskatchewan,Country generalized from Kew regions; not a whole-country claim.
+tomato,CIV,Introduced,,Ivory Coast,Country generalized from Kew regions; not a whole-country claim.
+tomato,CMR,Introduced,,Cameroon,Country generalized from Kew regions; not a whole-country claim.
+tomato,COD,Introduced,,DR Congo,Country generalized from Kew regions; not a whole-country claim.
+tomato,COL,Introduced,,Colombia,Country generalized from Kew regions; not a whole-country claim.
+tomato,COM,Introduced,,Comoros,Country generalized from Kew regions; not a whole-country claim.
+tomato,CRI,Introduced,,Costa Rica,Country generalized from Kew regions; not a whole-country claim.
+tomato,CUB,Introduced,,Cuba,Country generalized from Kew regions; not a whole-country claim.
+tomato,CYP,Introduced,,Cyprus,Country generalized from Kew regions; not a whole-country claim.
+tomato,DEU,Introduced,,Germany,Country generalized from Kew regions; not a whole-country claim.
+tomato,DOM,Introduced,,Dominican Republic,Country generalized from Kew regions; not a whole-country claim.
+tomato,ECU,Introduced,,Ecuador; Galápagos,Country generalized from Kew regions; not a whole-country claim.
+tomato,EGY,Introduced,,Egypt,Country generalized from Kew regions; not a whole-country claim.
+tomato,ESP,Introduced,,Canary Is.,Country generalized from Kew regions; not a whole-country claim.
+tomato,FJI,Introduced,,Fiji,Country generalized from Kew regions; not a whole-country claim.
+tomato,GBR,Introduced,,Great Britain,Country generalized from Kew regions; not a whole-country claim.
+tomato,HTI,Introduced,,Haiti,Country generalized from Kew regions; not a whole-country claim.
+tomato,IDN,Introduced,,Jawa; Sumatera,Country generalized from Kew regions; not a whole-country claim.
+tomato,IND,Introduced,,Andaman Is.; Assam; India; Nicobar Is.,Country generalized from Kew regions; not a whole-country claim.
+tomato,IRL,Introduced,,Ireland,Country generalized from Kew regions; not a whole-country claim.
+tomato,JPN,Introduced,,Nansei-shoto; Ogasawara-shoto,Country generalized from Kew regions; not a whole-country claim.
+tomato,KAZ,Introduced,,Kazakhstan,Country generalized from Kew regions; not a whole-country claim.
+tomato,KHM,Introduced,,Cambodia,Country generalized from Kew regions; not a whole-country claim.
+tomato,LAO,Introduced,,Laos,Country generalized from Kew regions; not a whole-country claim.
+tomato,MDG,Introduced,,Madagascar,Country generalized from Kew regions; not a whole-country claim.
+tomato,MEX,Introduced,,Mexico Northwest,Country generalized from Kew regions; not a whole-country claim.
+tomato,MHL,Introduced,,Marshall Is.,Country generalized from Kew regions; not a whole-country claim.
+tomato,MLI,Introduced,,Mali,Country generalized from Kew regions; not a whole-country claim.
+tomato,MMR,Introduced,,Myanmar,Country generalized from Kew regions; not a whole-country claim.
+tomato,MOZ,Introduced,,Mozambique,Country generalized from Kew regions; not a whole-country claim.
+tomato,MRT,Introduced,,Mauritania,Country generalized from Kew regions; not a whole-country claim.
+tomato,MUS,Introduced,,Mauritius,Country generalized from Kew regions; not a whole-country claim.
+tomato,MWI,Introduced,,Malawi,Country generalized from Kew regions; not a whole-country claim.
+tomato,NAM,Introduced,,Namibia,Country generalized from Kew regions; not a whole-country claim.
+tomato,NCL,Introduced,,New Caledonia,Country generalized from Kew regions; not a whole-country claim.
+tomato,NIC,Introduced,,Nicaragua,Country generalized from Kew regions; not a whole-country claim.
+tomato,NIU,Introduced,,Niue,Country generalized from Kew regions; not a whole-country claim.
+tomato,NPL,Introduced,,Nepal,Country generalized from Kew regions; not a whole-country claim.
+tomato,NRU,Introduced,,Nauru,Country generalized from Kew regions; not a whole-country claim.
+tomato,NZL,Introduced,,New Zealand North,Country generalized from Kew regions; not a whole-country claim.
+tomato,PAK,Introduced,,Pakistan,Country generalized from Kew regions; not a whole-country claim.
+tomato,PAN,Introduced,,Panamá,Country generalized from Kew regions; not a whole-country claim.
+tomato,PER,Native,Peru,,Country generalized from Kew regions; not a whole-country claim.
+tomato,PHL,Introduced,,Philippines,Country generalized from Kew regions; not a whole-country claim.
+tomato,PRI,Introduced,,Puerto Rico,Country generalized from Kew regions; not a whole-country claim.
+tomato,PRT,Introduced,,Azores; Madeira,Country generalized from Kew regions; not a whole-country claim.
+tomato,REU,Introduced,,Réunion,Country generalized from Kew regions; not a whole-country claim.
+tomato,ROU,Introduced,,Romania,Country generalized from Kew regions; not a whole-country claim.
+tomato,RUS,Introduced,,East European Russia; North European Russia; South European Russia,Country generalized from Kew regions; not a whole-country claim.
+tomato,SAU,Introduced,,Saudi Arabia,Country generalized from Kew regions; not a whole-country claim.
+tomato,TJK,Introduced,,Tadzhikistan,Country generalized from Kew regions; not a whole-country claim.
+tomato,TKM,Introduced,,Turkmenistan,Country generalized from Kew regions; not a whole-country claim.
+tomato,TTO,Introduced,,Trinidad-Tobago,Country generalized from Kew regions; not a whole-country claim.
+tomato,TUR,Introduced,,Türkiye,Country generalized from Kew regions; not a whole-country claim.
+tomato,TUV,Introduced,,Tuvalu,Country generalized from Kew regions; not a whole-country claim.
+tomato,TWN,Introduced,,Taiwan,Country generalized from Kew regions; not a whole-country claim.
+tomato,USA,Introduced,,Alabama; Alaska; Arizona; Arkansas; California; Connecticut; Delaware; Florida; Georgia; Hawaii; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New York; North Carolina; North Dakota; Ohio; Oregon; Pennsylvania; Rhode I.; South Carolina; Tennessee; Texas; Utah; Vermont; Virginia; Wisconsin,Country generalized from Kew regions; not a whole-country claim.
+tomato,UZB,Introduced,,Uzbekistan,Country generalized from Kew regions; not a whole-country claim.
+tomato,VEN,Introduced,,Venezuela,Country generalized from Kew regions; not a whole-country claim.
+tomato,VNM,Introduced,,Vietnam,Country generalized from Kew regions; not a whole-country claim.
+tomato,VUT,Introduced,,Vanuatu,Country generalized from Kew regions; not a whole-country claim.
+tomato,WSM,Introduced,,Samoa,Country generalized from Kew regions; not a whole-country claim.
+tomato,ZMB,Introduced,,Zambia,Country generalized from Kew regions; not a whole-country claim.
+tomato,ZWE,Introduced,,Zimbabwe,Country generalized from Kew regions; not a whole-country claim.
