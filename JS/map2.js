@@ -435,14 +435,7 @@ function updateFoodLegend() {
     missingRow.appendChild(missingLabel);
     legend.appendChild(missingRow);
 
-    const note = document.createElement('p');
-    note.className = 'map2-legend-note';
 
-    note.textContent = selectedFood === 'Sugar cane'
-        ? 'Zero values are grouped separately; positive values use four approximately equal groups.'
-        : 'Five quantile classes, each containing approximately 20% of countries with data.';
-
-    legend.appendChild(note);
 }
 
 
