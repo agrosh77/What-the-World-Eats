@@ -59,13 +59,41 @@ let map3WorldGeoJSON = null;
 
 
 /* =====================================================
-   STEP 3: HISTORICAL ROUTE HELPER
-   Draw a dashed line and a directional arrowhead
+   STEP 3: HISTORICAL MARKER HELPER
+   Ochre numbered circles with sapphire borders
+   ===================================================== */
+
+function addMap3HistoricalMarker(position, number, popupText) {
+
+    const numberedIcon = L.divIcon({
+        className: 'map3-history-marker',
+        html: `<span class="map3-history-number">${number}</span>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        popupAnchor: [0, -15]
+    });
+
+    L.marker(position, {
+        icon: numberedIcon,
+        title: `Historical stop ${number}`,
+        alt: `Historical stop ${number}`,
+        keyboard: true
+    })
+        .bindPopup(popupText, {
+            maxWidth: 260
+        })
+        .addTo(map3HistoricalMarkers);
+}
+
+
+/* =====================================================
+   STEP 4: HISTORICAL ROUTE HELPER
+   Dashed garnet lines with directional arrowheads
    ===================================================== */
 
 function addMap3Route(start, end) {
 
-    // Dashed line between historical locations
+    // Draw the dashed historical route
     L.polyline([start, end], {
         color: '#762E43',
         weight: 3,
@@ -74,19 +102,19 @@ function addMap3Route(start, end) {
         interactive: false
     }).addTo(map3HistoricalRoutes);
 
-    // Calculate an approximate midpoint for the arrow
+    // Approximate midpoint of the route
     const midpoint = [
         (start[0] + end[0]) / 2,
         (start[1] + end[1]) / 2
     ];
 
-    // Calculate direction for the arrow symbol
+    // Calculate the direction of the route
     const angle = Math.atan2(
         end[0] - start[0],
         end[1] - start[1]
     ) * 180 / Math.PI;
 
-    // Directional arrowhead
+    // Add a directional arrowhead
     L.marker(midpoint, {
         interactive: false,
         keyboard: false,
@@ -114,7 +142,7 @@ function addMap3Route(start, end) {
 
 
 /* =====================================================
-   STEP 4: DISPLAY THE SELECTED FOOD
+   STEP 5: DISPLAY THE SELECTED FOOD
    ===================================================== */
 
 function showMap3Food(foodId) {
@@ -129,12 +157,12 @@ function showMap3Food(foodId) {
         }
     });
 
-    // Remove previous country's colored layer
+    // Remove the previous colored country layer
     if (map3DistributionLayer) {
         map3.removeLayer(map3DistributionLayer);
     }
 
-    // Draw selected food's distribution
+    // Draw the selected food's distribution
     map3DistributionLayer = L.geoJSON(map3WorldGeoJSON, {
 
         style: feature => {
@@ -177,11 +205,11 @@ function showMap3Food(foodId) {
 
     }).addTo(map3);
 
-    // Update legend title
+    // Update the legend heading
     document.getElementById('map3-legend-title').textContent =
         map3FoodNames[foodId] + ' Distribution';
 
-    // Highlight selected food button
+    // Highlight the selected food button
     document.querySelectorAll('.map3-food-btn').forEach(button => {
         const isSelected = button.dataset.food === foodId;
 
@@ -191,60 +219,45 @@ function showMap3Food(foodId) {
 
 
     /* =================================================
-       STEP 5: HISTORICAL JOURNEYS
+       STEP 6: HISTORICAL JOURNEYS
        ================================================= */
 
-    // Clear previous food's markers and routes
+    // Clear the previous food's markers and routes
     map3HistoricalMarkers.clearLayers();
     map3HistoricalRoutes.clearLayers();
 
     // POTATO HISTORICAL JOURNEY
     if (foodId === 'potato') {
 
-        // Historical stop coordinates
+        // Coordinates of the three historical stops
         const andes = [-15.8, -69.4];
         const canaryIslands = [28.3, -16.6];
         const ireland = [53.4, -8.0];
 
-        // Stop 1: Andes
-        L.marker(andes)
-            .bindPopup(`
-                <strong>🥔 Stop 1: The Andes</strong><br>
-                <em>Before European contact</em><br><br>
-                Indigenous Andean communities cultivated potatoes
-                thousands of years before their introduction
-                to Europe.<br><br>
-                <small>
-                    Lake Titicaca region<br>
-                    Approximate historical location
-                </small>
-            `)
-            .addTo(map3HistoricalMarkers);
+        // First stop: Andes
+        addMap3HistoricalMarker(andes, 1, `
+            <strong>🥔 The Andes: Origins of Potato Cultivation</strong><br>
+            <em>Before European contact</em><br><br>
+            Indigenous Andean communities cultivated potatoes
+            thousands of years before their introduction to Europe.
+        `);
 
-        // Stop 2: Canary Islands
-        L.marker(canaryIslands)
-            .bindPopup(`
-                <strong>🥔 Stop 2: Canary Islands</strong><br>
-                <em>1560s</em><br><br>
-                Historical records document potatoes in the
-                Canary Islands during the sixteenth century.
-                The islands were an important early point
-                in the potato's Atlantic movement.<br><br>
-                <small>Approximate regional location</small>
-            `)
-            .addTo(map3HistoricalMarkers);
+        // Second stop: Canary Islands
+        addMap3HistoricalMarker(canaryIslands, 2, `
+            <strong>🥔 Canary Islands</strong><br>
+            <em>1560s</em><br><br>
+            Historical records document potatoes in the Canary Islands
+            during the sixteenth century. The islands were an important
+            early point in the potato's Atlantic movement.
+        `);
 
-        // Stop 3: Ireland
-        L.marker(ireland)
-            .bindPopup(`
-                <strong>🥔 Stop 3: Ireland</strong><br>
-                <em>By the late 1700s</em><br><br>
-                Potatoes became a major staple food in Ireland,
-                transforming agricultural practices and
-                everyday diets.<br><br>
-                <small>Approximate national location</small>
-            `)
-            .addTo(map3HistoricalMarkers);
+        // Third stop: Ireland
+        addMap3HistoricalMarker(ireland, 3, `
+            <strong>🥔 Ireland</strong><br>
+            <em>By the late 1700s</em><br><br>
+            Potatoes became a major staple food in Ireland,
+            transforming agricultural practices and everyday diets.
+        `);
 
         // Connect the three historical stops
         addMap3Route(andes, canaryIslands);
@@ -254,7 +267,7 @@ function showMap3Food(foodId) {
 
 
 /* =====================================================
-   STEP 6: LOAD DISTRIBUTION DATA
+   STEP 7: LOAD DISTRIBUTION DATA
    ===================================================== */
 
 Promise.all([
@@ -276,16 +289,16 @@ Promise.all([
 ])
 .then(([csvText, worldGeoJSON]) => {
 
-    // Read the distribution CSV
+    // Read the botanical distribution CSV
     map3DistributionRows = Papa.parse(csvText, {
         header: true,
         skipEmptyLines: true
     }).data;
 
-    // Store country boundaries
+    // Store the world country boundaries
     map3WorldGeoJSON = worldGeoJSON;
 
-    // Show potatoes when the page first loads
+    // Display potatoes when the page first loads
     showMap3Food('potato');
 
     // Connect the six food buttons
