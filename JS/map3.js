@@ -236,7 +236,7 @@ function showMap3Food(foodId) {
 
         // First stop: Andes
         addMap3HistoricalMarker(andes, 1, `
-            <strong>🥔 The Andes: Origins of Potato Cultivation</strong><br>
+            <strong>🥔 The Andes</strong><br>
             <em>Before European contact</em><br><br>
             Indigenous Andean communities cultivated potatoes
             thousands of years before their introduction to Europe.
