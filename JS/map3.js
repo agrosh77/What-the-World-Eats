@@ -1,18 +1,16 @@
 
 /* =====================================================
    MAP 3: FOODS ON THE MOVE
-   Interactive historical food distribution map
-
-   Step 1: Initialize the Leaflet map
+   Interactive botanical distribution and historical map
    ===================================================== */
 
-// Create the map inside the HTML element with id="map3-map"
+// STEP 1: Initialize the Leaflet map
 const map3 = L.map('map3-map', {
     worldCopyJump: true,
     scrollWheelZoom: false
 }).setView([15, 0], 2);
 
-// Add a world basemap
+// Add the world basemap
 L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
     {
@@ -21,33 +19,29 @@ L.tileLayer(
     }
 ).addTo(map3);
 
-// Ensure the map fits its container correctly
+// Make sure the map fits its container
 setTimeout(() => {
     map3.invalidateSize();
 }, 200);
 
 
 /* =====================================================
-   MAP 3: POTATO DISTRIBUTION
-   Shade countries using Kew botanical distribution data
+   STEP 2: SET UP MAP LAYERS AND COLORS
    ===================================================== */
 
-// Colors for the two distribution categories
-const map3Colors = {
-    native: '#719C65',       // Green
-    introduced: '#AA7AB1'   // Purple
-};
+// Store the colored country layer
+let map3DistributionLayer = null;
 
-
-/* =====================================================
-   MAP 3: INTERACTIVE FOOD DISTRIBUTION
-   Load all six foods and update the map when selected
-   ===================================================== */
-
-// Store historical markers separately from distribution colors
+// Store historical markers in their own layer
 const map3HistoricalMarkers = L.layerGroup().addTo(map3);
 
-// Food names for the changing legend
+// Colors for botanical distribution
+const map3Colors = {
+    native: '#719C65',
+    introduced: '#AA7AB1'
+};
+
+// Food names for the legend and popups
 const map3FoodNames = {
     potato: 'Potato',
     tomato: 'Tomato',
@@ -57,14 +51,18 @@ const map3FoodNames = {
     corn: 'Corn'
 };
 
-// Store the loaded data
+// Store the distribution data after loading
 let map3DistributionRows = [];
 let map3WorldGeoJSON = null;
 
-// Display the selected food's distribution
+
+/* =====================================================
+   STEP 3: DISPLAY THE SELECTED FOOD
+   ===================================================== */
+
 function showMap3Food(foodId) {
 
-    // Match country codes to native/introduced status
+    // Find the selected food's country distribution
     const foodCountries = {};
 
     map3DistributionRows.forEach(row => {
@@ -74,12 +72,12 @@ function showMap3Food(foodId) {
         }
     });
 
-    // Remove the previous food's colored countries
+    // Remove the previous distribution layer
     if (map3DistributionLayer) {
         map3.removeLayer(map3DistributionLayer);
     }
 
-    // Add the selected food's colored countries
+    // Draw the selected food's distribution
     map3DistributionLayer = L.geoJSON(map3WorldGeoJSON, {
 
         style: feature => {
@@ -126,7 +124,7 @@ function showMap3Food(foodId) {
     document.getElementById('map3-legend-title').textContent =
         map3FoodNames[foodId] + ' Distribution';
 
-    // Highlight the selected food button
+    // Update the selected food button
     document.querySelectorAll('.map3-food-btn').forEach(button => {
         const isSelected = button.dataset.food === foodId;
 
@@ -135,65 +133,84 @@ function showMap3Food(foodId) {
     });
 
 
+    /* =================================================
+       STEP 4: HISTORICAL JOURNEY MARKERS
+       ================================================= */
 
-    // Clear historical markers when switching foods
+    // Remove historical markers from the previous food
     map3HistoricalMarkers.clearLayers();
 
-    // First historical stop: potato cultivation in the Andes
+    // POTATO: First historical stop
     if (foodId === 'potato') {
+
         L.marker([-15.8, -69.4])
             .bindPopup(`
-                <strong>🥔 The Andes: Origins of Potato Cultivation</strong><br>
-                <em>Before European contact</em><br><br>
+                <strong>🥔 The Andes: Origins of Potato Cultivation</strong>
+                <br>
+                <em>Before European contact</em>
+                <br><br>
                 Indigenous Andean communities cultivated potatoes
                 thousands of years before they spread to Europe
-                and other parts of the world.<br><br>
-                <small>Location: Lake Titicaca region</small>
+                and other parts of the world.
+                <br><br>
+                <small>
+                    Location: Lake Titicaca region
+                    <br>
+                    Approximate historical location
+                </small>
             `)
             .addTo(map3HistoricalMarkers);
     }
 
-
-
-   
+    // Keep the historical markers above the country shading
+    map3HistoricalMarkers.bringToFront?.();
 }
 
-// Load the distribution CSV and world boundaries once
+
+/* =====================================================
+   STEP 5: LOAD DISTRIBUTION DATA
+   ===================================================== */
+
 Promise.all([
     fetch('Data/map3_distribution_country_codes.csv')
         .then(response => {
-            if (!response.ok) throw new Error('Could not load Map 3 CSV');
+            if (!response.ok) {
+                throw new Error('Could not load Map 3 CSV');
+            }
             return response.text();
         }),
 
     fetch('Data/world-countries.geojson')
         .then(response => {
-            if (!response.ok) throw new Error('Could not load world GeoJSON');
+            if (!response.ok) {
+                throw new Error('Could not load world GeoJSON');
+            }
             return response.json();
         })
 ])
 .then(([csvText, worldGeoJSON]) => {
 
+    // Read distribution records
     map3DistributionRows = Papa.parse(csvText, {
         header: true,
         skipEmptyLines: true
     }).data;
 
+    // Store world boundaries
     map3WorldGeoJSON = worldGeoJSON;
 
-    // Display potatoes when the page first loads
+    // Show potatoes by default
     showMap3Food('potato');
 
-    // Connect the food buttons to the map
+    // Connect all six food buttons
     document.querySelectorAll('.map3-food-btn').forEach(button => {
         button.addEventListener('click', () => {
             showMap3Food(button.dataset.food);
         });
     });
 
-    console.log('Map 3 food selection ready!');
+    console.log('Map 3 distribution and historical markers ready!');
 })
 .catch(error => {
     console.error('Map 3 distribution error:', error);
 });
-
