@@ -44,8 +44,8 @@ const map3Colors = {
    Load all six foods and update the map when selected
    ===================================================== */
 
-// Store the GeoJSON layer so we can replace it
-let map3DistributionLayer = null;
+// Store historical markers separately from distribution colors
+const map3HistoricalMarkers = L.layerGroup().addTo(map3);
 
 // Food names for the changing legend
 const map3FoodNames = {
@@ -133,6 +133,29 @@ function showMap3Food(foodId) {
         button.classList.toggle('active', isSelected);
         button.setAttribute('aria-pressed', String(isSelected));
     });
+
+
+
+    // Clear historical markers when switching foods
+    map3HistoricalMarkers.clearLayers();
+
+    // First historical stop: potato cultivation in the Andes
+    if (foodId === 'potato') {
+        L.marker([-15.8, -69.4])
+            .bindPopup(`
+                <strong>🥔 The Andes: Origins of Potato Cultivation</strong><br>
+                <em>Before European contact</em><br><br>
+                Indigenous Andean communities cultivated potatoes
+                thousands of years before they spread to Europe
+                and other parts of the world.<br><br>
+                <small>Location: Lake Titicaca region</small>
+            `)
+            .addTo(map3HistoricalMarkers);
+    }
+
+
+
+   
 }
 
 // Load the distribution CSV and world boundaries once
