@@ -1,17 +1,9 @@
 
-/* =====================================================
-   MAP 3: FOODS ON THE MOVE
-   Botanical distribution and historical journeys
-   ===================================================== */
-
-// STEP 1: INITIALIZE THE MAP
-
 const map3 = L.map('map3-map', {
     worldCopyJump: true,
     scrollWheelZoom: false
 }).setView([15, 0], 2);
 
-// World basemap
 L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
     {
@@ -20,30 +12,18 @@ L.tileLayer(
     }
 ).addTo(map3);
 
-// Make sure the map fits its container
-setTimeout(() => {
-    map3.invalidateSize();
-}, 200);
+setTimeout(() => map3.invalidateSize(), 200);
 
-
-/* =====================================================
-   STEP 2: SET UP MAP LAYERS AND COLORS
-   ===================================================== */
-
-// Colored country distribution layer
 let map3DistributionLayer = null;
 
-// Historical routes and markers have separate layers
 const map3HistoricalRoutes = L.layerGroup().addTo(map3);
 const map3HistoricalMarkers = L.layerGroup().addTo(map3);
 
-// Botanical distribution colors
 const map3Colors = {
     native: '#719C65',
     introduced: '#AA7AB1'
 };
 
-// Food names for legends and popups
 const map3FoodNames = {
     potato: 'Potato',
     tomato: 'Tomato',
@@ -53,18 +33,22 @@ const map3FoodNames = {
     corn: 'Corn'
 };
 
-// Distribution data loaded from CSV and GeoJSON
 let map3DistributionRows = [];
+let map3HistoricalStops = [];
 let map3WorldGeoJSON = null;
 
+// Safely display spreadsheet text inside popup HTML.
+function map3EscapeHTML(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
 
-/* =====================================================
-   STEP 3: HISTORICAL MARKER HELPER
-   Ochre numbered circles with sapphire borders
-   ===================================================== */
-
+// Create a numbered historical marker.
 function addMap3HistoricalMarker(position, number, popupText) {
-
     const numberedIcon = L.divIcon({
         className: 'map3-history-marker',
         html: `<span class="map3-history-number">${number}</span>`,
@@ -79,21 +63,12 @@ function addMap3HistoricalMarker(position, number, popupText) {
         alt: `Historical stop ${number}`,
         keyboard: true
     })
-        .bindPopup(popupText, {
-            maxWidth: 260
-        })
+        .bindPopup(popupText, { maxWidth: 260 })
         .addTo(map3HistoricalMarkers);
 }
 
-
-/* =====================================================
-   STEP 4: HISTORICAL ROUTE HELPER
-   Dashed garnet lines with directional arrowheads
-   ===================================================== */
-
+// Draw a dashed route and directional arrow.
 function addMap3Route(start, end) {
-
-    // Draw the dashed historical route
     L.polyline([start, end], {
         color: '#762E43',
         weight: 3,
@@ -102,19 +77,15 @@ function addMap3Route(start, end) {
         interactive: false
     }).addTo(map3HistoricalRoutes);
 
-    // Approximate midpoint of the route
     const midpoint = [
         (start[0] + end[0]) / 2,
         (start[1] + end[1]) / 2
     ];
 
-    // Calculate the direction of the route
-    const angle = Math.atan2(
-        end[0] - start[0],
-        end[1] - start[1]
-    ) * 180 / Math.PI;
+    const angle =
+        Math.atan2(end[0] - start[0], end[1] - start[1]) *
+        180 / Math.PI;
 
-    // Add a directional arrowhead
     L.marker(midpoint, {
         interactive: false,
         keyboard: false,
@@ -122,16 +93,16 @@ function addMap3Route(start, end) {
             className: 'map3-route-arrow',
             html: `
                 <span style="
-                    display: block;
-                    width: 24px;
-                    height: 24px;
-                    color: #762E43;
-                    font-size: 25px;
-                    font-weight: bold;
-                    text-align: center;
-                    line-height: 24px;
-                    text-shadow: 1px 1px 2px #FFF9EF;
-                    transform: rotate(${-angle}deg);
+                    display:block;
+                    width:24px;
+                    height:24px;
+                    color:#762E43;
+                    font-size:25px;
+                    font-weight:bold;
+                    text-align:center;
+                    line-height:24px;
+                    text-shadow:1px 1px 2px #FFF9EF;
+                    transform:rotate(${-angle}deg);
                 ">➜</span>
             `,
             iconSize: [24, 24],
@@ -140,34 +111,98 @@ function addMap3Route(start, end) {
     }).addTo(map3HistoricalRoutes);
 }
 
+// Read and display the historical stops for one food.
+function showMap3HistoricalJourney(foodId) {
+    map3HistoricalMarkers.clearLayers();
+    map3HistoricalRoutes.clearLayers();
 
-/* =====================================================
-   STEP 5: DISPLAY THE SELECTED FOOD
-   ===================================================== */
+    const stops = map3HistoricalStops
+        .filter(row =>
+            String(row['Food ID'] || '').trim().toLowerCase() === foodId
+        )
+        .map(row => ({
+            order: Number(row['Stop Order']),
+            name: row['Location Name'],
+            latitude: Number(row['Latitude']),
+            longitude: Number(row['Longitude']),
+            date: row['Approximate Date'],
+            event: row['Event Type'],
+            description: row['Historical Fact / Popup Text'],
+            sources: row['Source ID(s)'],
+            routeGroup: String(row['Route Group'] || '').trim()
+        }))
+        .filter(stop =>
+            Number.isFinite(stop.order) &&
+            Number.isFinite(stop.latitude) &&
+            Number.isFinite(stop.longitude) &&
+            stop.latitude >= -90 &&
+            stop.latitude <= 90 &&
+            stop.longitude >= -180 &&
+            stop.longitude <= 180
+        )
+        .sort((a, b) => a.order - b.order);
 
+    stops.forEach(stop => {
+        const position = [stop.latitude, stop.longitude];
+
+        const popup = `
+            <strong>${map3EscapeHTML(stop.name)}</strong>
+            <br>
+            <em>${map3EscapeHTML(stop.date)}</em>
+            <br><br>
+            ${map3EscapeHTML(stop.description)}
+            <br><br>
+            <small>
+                ${map3EscapeHTML(stop.event)}
+                <br>
+                Sources: ${map3EscapeHTML(stop.sources)}
+            </small>
+        `;
+
+        addMap3HistoricalMarker(
+            position,
+            stop.order,
+            popup
+        );
+    });
+
+    // Connect consecutive stops within the same route group.
+    for (let i = 1; i < stops.length; i++) {
+        const previous = stops[i - 1];
+        const current = stops[i];
+
+        if (
+            previous.routeGroup &&
+            previous.routeGroup === current.routeGroup
+        ) {
+            addMap3Route(
+                [previous.latitude, previous.longitude],
+                [current.latitude, current.longitude]
+            );
+        }
+    }
+}
+
+// Display a food's botanical distribution and historical journey.
 function showMap3Food(foodId) {
-
-    // Match country codes to botanical distribution
     const foodCountries = {};
 
     map3DistributionRows.forEach(row => {
         if (row.food_id === foodId && row.iso_a3) {
-            foodCountries[row.iso_a3.trim().toUpperCase()] =
-                row.distribution_status.trim();
+            foodCountries[
+                row.iso_a3.trim().toUpperCase()
+            ] = row.distribution_status.trim();
         }
     });
 
-    // Remove the previous colored country layer
     if (map3DistributionLayer) {
         map3.removeLayer(map3DistributionLayer);
     }
 
-    // Draw the selected food's distribution
     map3DistributionLayer = L.geoJSON(map3WorldGeoJSON, {
-
         style: feature => {
-            const countryCode = feature.properties.iso_a3;
-            const status = foodCountries[countryCode];
+            const status =
+                foodCountries[feature.properties.iso_a3];
 
             let fillColor = '#F4EBD8';
 
@@ -195,86 +230,41 @@ function showMap3Food(foodId) {
                     feature.properties.name ||
                     countryCode;
 
-                layer.bindPopup(
-                    `<strong>${countryName}</strong><br>` +
-                    `${map3FoodNames[foodId]} distribution: ${status}<br>` +
-                    `<small>Source: Royal Botanic Gardens, Kew</small>`
-                );
+                layer.bindPopup(`
+                    <strong>${map3EscapeHTML(countryName)}</strong>
+                    <br>
+                    ${map3EscapeHTML(map3FoodNames[foodId])}
+                    distribution: ${map3EscapeHTML(status)}
+                    <br>
+                    <small>Source: Royal Botanic Gardens, Kew</small>
+                `);
             }
         }
-
     }).addTo(map3);
 
-    // Update the legend heading
     document.getElementById('map3-legend-title').textContent =
         map3FoodNames[foodId] + ' Distribution';
 
-    // Highlight the selected food button
     document.querySelectorAll('.map3-food-btn').forEach(button => {
         const isSelected = button.dataset.food === foodId;
 
         button.classList.toggle('active', isSelected);
-        button.setAttribute('aria-pressed', String(isSelected));
+        button.setAttribute(
+            'aria-pressed',
+            String(isSelected)
+        );
     });
 
-
-    /* =================================================
-       STEP 6: HISTORICAL JOURNEYS
-       ================================================= */
-
-    // Clear the previous food's markers and routes
-    map3HistoricalMarkers.clearLayers();
-    map3HistoricalRoutes.clearLayers();
-
-    // POTATO HISTORICAL JOURNEY
-    if (foodId === 'potato') {
-
-        // Coordinates of the three historical stops
-        const andes = [-15.8, -69.4];
-        const canaryIslands = [28.3, -16.6];
-        const ireland = [53.4, -8.0];
-
-        // First stop: Andes
-        addMap3HistoricalMarker(andes, 1, `
-            <strong>🥔 The Andes</strong><br>
-            <em>Before European contact</em><br><br>
-            Indigenous Andean communities cultivated potatoes
-            thousands of years before their introduction to Europe.
-        `);
-
-        // Second stop: Canary Islands
-        addMap3HistoricalMarker(canaryIslands, 2, `
-            <strong>🥔 Canary Islands</strong><br>
-            <em>1560s</em><br><br>
-            Historical records document potatoes in the Canary Islands
-            during the sixteenth century. The islands were an important
-            early point in the potato's Atlantic movement.
-        `);
-
-        // Third stop: Ireland
-        addMap3HistoricalMarker(ireland, 3, `
-            <strong>🥔 Ireland</strong><br>
-            <em>By the late 1700s</em><br><br>
-            Potatoes became a major staple food in Ireland,
-            transforming agricultural practices and everyday diets.
-        `);
-
-        // Connect the three historical stops
-        addMap3Route(andes, canaryIslands);
-        addMap3Route(canaryIslands, ireland);
-    }
+    showMap3HistoricalJourney(foodId);
 }
 
-
-/* =====================================================
-   STEP 7: LOAD DISTRIBUTION DATA
-   ===================================================== */
-
+// Load botanical distribution, country boundaries,
+// and historical stops before displaying the map.
 Promise.all([
     fetch('Data/map3_distribution_country_codes.csv')
         .then(response => {
             if (!response.ok) {
-                throw new Error('Could not load Map 3 CSV');
+                throw new Error('Could not load Map 3 distribution CSV');
             }
             return response.text();
         }),
@@ -285,31 +275,43 @@ Promise.all([
                 throw new Error('Could not load world GeoJSON');
             }
             return response.json();
+        }),
+
+    fetch('Data/map3_historical_stops.csv')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Could not load historical stops CSV');
+            }
+            return response.text();
         })
 ])
-.then(([csvText, worldGeoJSON]) => {
-
-    // Read the botanical distribution CSV
-    map3DistributionRows = Papa.parse(csvText, {
+.then(([distributionCSV, worldGeoJSON, historicalCSV]) => {
+    map3DistributionRows = Papa.parse(distributionCSV, {
         header: true,
         skipEmptyLines: true
     }).data;
 
-    // Store the world country boundaries
     map3WorldGeoJSON = worldGeoJSON;
 
-    // Display potatoes when the page first loads
+    map3HistoricalStops = Papa.parse(historicalCSV, {
+        header: true,
+        skipEmptyLines: true
+    }).data;
+
     showMap3Food('potato');
 
-    // Connect the six food buttons
     document.querySelectorAll('.map3-food-btn').forEach(button => {
         button.addEventListener('click', () => {
             showMap3Food(button.dataset.food);
         });
     });
 
-    console.log('Map 3 distribution and historical journeys ready!');
+    console.log(
+        'Map 3 ready with',
+        map3HistoricalStops.length,
+        'historical stops!'
+    );
 })
 .catch(error => {
-    console.error('Map 3 distribution error:', error);
+    console.error('Map 3 loading error:', error);
 });
