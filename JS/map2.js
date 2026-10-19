@@ -647,5 +647,5 @@ document.querySelectorAll(
 
 });
 
-console.log('Map 2 JavaScript initialized!');
+console.log('🍽️ Map 2 loaded up beautifully!');
 
