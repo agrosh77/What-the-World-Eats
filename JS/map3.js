@@ -126,9 +126,7 @@ function showMap3HistoricalJourney(foodId) {
             latitude: Number(row['Latitude']),
             longitude: Number(row['Longitude']),
             date: row['Approximate Date'],
-            event: row['Event Type'],
             description: row['Historical Fact / Popup Text'],
-            sources: row['Source ID(s)'],
             routeGroup: String(row['Route Group'] || '').trim()
         }))
         .filter(stop =>
@@ -145,18 +143,14 @@ function showMap3HistoricalJourney(foodId) {
     stops.forEach(stop => {
         const position = [stop.latitude, stop.longitude];
 
+        // Clean historical popup:
+        // location, date, and description only.
         const popup = `
             <strong>${map3EscapeHTML(stop.name)}</strong>
             <br>
             <em>${map3EscapeHTML(stop.date)}</em>
             <br><br>
             ${map3EscapeHTML(stop.description)}
-            <br><br>
-            <small>
-                ${map3EscapeHTML(stop.event)}
-                <br>
-                Sources: ${map3EscapeHTML(stop.sources)}
-            </small>
         `;
 
         addMap3HistoricalMarker(
@@ -314,5 +308,5 @@ Promise.all([
     console.log('📚 Learning activated!');
 })
 .catch(error => {
-    console.error('❌ Map 3 encountered a problem:', error);
+    console.error('❌ Map 3 aint loadin right:', error);
 });
