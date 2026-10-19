@@ -617,7 +617,7 @@ Promise.all([
 
     updateFoodMap();
 
-    console.log('Map 2 data loaded successfully!');
+    
     console.log('Available categories:', Object.keys(foodData));
     console.log('Calculated class breaks:', foodBreaks);
 
