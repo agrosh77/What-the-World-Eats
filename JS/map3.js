@@ -306,12 +306,13 @@ Promise.all([
         });
     });
 
+    // Customize console
     console.log(
-        'Map 3 ready with',
-        map3HistoricalStops.length,
-        'historical stops!'
+        `🌎 Map 3 is being awesome! ${map3HistoricalStops.length} historical stops loaded!`
     );
+
+    console.log('📚 Learning activated!');
 })
 .catch(error => {
-    console.error('Map 3 loading error:', error);
+    console.error('❌ Map 3 encountered a problem:', error);
 });
