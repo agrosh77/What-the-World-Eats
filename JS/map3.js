@@ -308,5 +308,5 @@ Promise.all([
     console.log('📚 Learning activated!');
 })
 .catch(error => {
-    console.error('❌ Map 3 aint loadin right:', error);
+    console.error('❌ Map 3 encountered a problem:', error);
 });
