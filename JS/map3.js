@@ -47,78 +47,182 @@ function map3EscapeHTML(value) {
         .replace(/'/g, '&#39;');
 }
 
-// Create a numbered historical marker.
-function addMap3HistoricalMarker(position, number, popupText) {
-    const numberedIcon = L.divIcon({
+// Animated historical journeys: two routes branch from the first stop.
+// The routes are generalized illustrations, not documented direct voyages.
+let map3AnimationFrame = null;
+let map3ActiveFood = 'potato';
+let map3JourneyRoutes = [];
+
+// Add our styles without requiring changes to index.html.
+const map3AnimationStyles = document.createElement('style');
+map3AnimationStyles.textContent = `
+    .map3-history-dot {
+        display:block; width:15px; height:15px; border-radius:50%;
+        background:#B58438; border:3px solid #24476A;
+        box-shadow:0 2px 5px rgba(0,0,0,.3);
+    }
+    .map3-ship-icon { background:transparent; border:0; }
+    .map3-ship-icon span {
+        display:block; font-size:24px; line-height:28px;
+        filter:drop-shadow(1px 2px 1px #FFF9EF);
+    }
+    #map3-replay-button {
+        margin-top:14px; width:100%; padding:9px 12px;
+        border:2px solid #762E43; border-radius:6px;
+        background:#FAF8F2; color:#762E43;
+        font: bold 14px Verdana, sans-serif; cursor:pointer;
+    }
+    #map3-replay-button:hover { background:#E9D9B8; }
+    #map3-replay-button:focus-visible {
+        outline:3px solid #24476A; outline-offset:3px;
+    }
+`;
+document.head.appendChild(map3AnimationStyles);
+
+// Add a small, unnumbered historical location marker.
+function addMap3HistoricalMarker(position, stop, popupText) {
+    const dotIcon = L.divIcon({
         className: 'map3-history-marker',
-        html: `<span class="map3-history-number">${number}</span>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
-        popupAnchor: [0, -15]
+        html: '<span class="map3-history-dot"></span>',
+        iconSize: [15, 15],
+        iconAnchor: [7, 7],
+        popupAnchor: [0, -10]
     });
 
     L.marker(position, {
-        icon: numberedIcon,
-        title: `Historical stop ${number}`,
-        alt: `Historical stop ${number}`,
+        icon: dotIcon,
+        title: stop.name || 'Historical location',
+        alt: stop.name || 'Historical location',
         keyboard: true
     })
-        .bindPopup(popupText, { maxWidth: 260 })
-        .addTo(map3HistoricalMarkers);
+    .bindPopup(popupText, { maxWidth: 260 })
+    .addTo(map3HistoricalMarkers);
 }
 
-// Draw a dashed route and directional arrow.
-function addMap3Route(start, end) {
-    L.polyline([start, end], {
-        color: '#762E43',
-        weight: 3,
-        opacity: 0.9,
-        dashArray: '8, 7',
-        interactive: false
-    }).addTo(map3HistoricalRoutes);
-
-    const midpoint = [
-        (start[0] + end[0]) / 2,
-        (start[1] + end[1]) / 2
-    ];
-
-    const angle =
-        Math.atan2(end[0] - start[0], end[1] - start[1]) *
-        180 / Math.PI;
-
-    L.marker(midpoint, {
-        interactive: false,
-        keyboard: false,
-        icon: L.divIcon({
-            className: 'map3-route-arrow',
-            html: `
-                <span style="
-                    display:block;
-                    width:24px;
-                    height:24px;
-                    color:#762E43;
-                    font-size:25px;
-                    font-weight:bold;
-                    text-align:center;
-                    line-height:24px;
-                    text-shadow:1px 1px 2px #FFF9EF;
-                    transform:rotate(${-angle}deg);
-                ">➜</span>
-            `,
-            iconSize: [24, 24],
-            iconAnchor: [12, 12]
-        })
-    }).addTo(map3HistoricalRoutes);
+function map3StopPosition(stop) {
+    return [stop.latitude, stop.longitude];
 }
 
-// Read and display the historical stops for one food.
+function map3CancelAnimation() {
+    if (map3AnimationFrame !== null) {
+        cancelAnimationFrame(map3AnimationFrame);
+        map3AnimationFrame = null;
+    }
+}
+
+// Calculate the ship's position between the origin and destination.
+// Projected coordinates keep the ship on the visible Leaflet line.
+function map3PositionAlong(start, end, progress) {
+    const a = map3.project(L.latLng(start), 3);
+    const b = map3.project(L.latLng(end), 3);
+
+    return map3.unproject(L.point(
+        a.x + (b.x - a.x) * progress,
+        a.y + (b.y - a.y) * progress
+    ), 3);
+}
+
+// Draw the two routes and animate ships along them.
+function map3DrawJourney(animate = true) {
+    map3CancelAnimation();
+    map3HistoricalRoutes.clearLayers();
+
+    if (!map3JourneyRoutes.length) return;
+
+    const reduceMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const shouldAnimate = animate && !reduceMotion;
+
+    const visuals = map3JourneyRoutes.map(route => {
+        const line = L.polyline([], {
+            color: '#762E43',
+            weight: 3,
+            opacity: 0.9,
+            dashArray: '8, 7',
+            interactive: false
+        }).addTo(map3HistoricalRoutes);
+
+        // Emoji ships require no extra images or Leaflet plugins.
+        const ship = shouldAnimate ? L.marker(route.start, {
+            interactive: false,
+            keyboard: false,
+            icon: L.divIcon({
+                className: 'map3-ship-icon',
+                html: '<span aria-hidden="true">⛵</span>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            })
+        }).addTo(map3HistoricalRoutes) : null;
+
+        return { ...route, line, ship };
+    });
+
+    function render(progress) {
+        visuals.forEach(route => {
+            const point = map3PositionAlong(
+                route.start,
+                route.end,
+                progress
+            );
+
+            // Reveal the route progressively.
+            route.line.setLatLngs([route.start, point]);
+
+            // Move the ship to the end of the growing route.
+            if (route.ship) {
+                route.ship.setLatLng(point);
+            }
+        });
+    }
+
+    if (!shouldAnimate) {
+        render(1);
+        return;
+    }
+
+    const duration = 4200;
+    let startTime = null;
+
+    function frame(timestamp) {
+        if (startTime === null) startTime = timestamp;
+
+        const t = Math.min(
+            1,
+            (timestamp - startTime) / duration
+        );
+
+        render(t);
+
+        if (t < 1) {
+            map3AnimationFrame = requestAnimationFrame(frame);
+        } else {
+            map3AnimationFrame = null;
+
+            // Leave the completed lines visible,
+            // but remove the ships at the destinations.
+            visuals.forEach(route => {
+                if (route.ship) {
+                    map3HistoricalRoutes.removeLayer(route.ship);
+                }
+            });
+        }
+    }
+
+    map3AnimationFrame = requestAnimationFrame(frame);
+}
+
+// Read and display historical locations for the selected food.
 function showMap3HistoricalJourney(foodId) {
+    map3CancelAnimation();
     map3HistoricalMarkers.clearLayers();
     map3HistoricalRoutes.clearLayers();
 
     const stops = map3HistoricalStops
         .filter(row =>
-            String(row['Food ID'] || '').trim().toLowerCase() === foodId
+            String(row['Food ID'] || '')
+                .trim()
+                .toLowerCase() === foodId
         )
         .map(row => ({
             order: Number(row['Stop Order']),
@@ -141,10 +245,6 @@ function showMap3HistoricalJourney(foodId) {
         .sort((a, b) => a.order - b.order);
 
     stops.forEach(stop => {
-        const position = [stop.latitude, stop.longitude];
-
-        // Clean historical popup:
-        // location, date, and description only.
         const popup = `
             <strong>${map3EscapeHTML(stop.name)}</strong>
             <br>
@@ -154,31 +254,70 @@ function showMap3HistoricalJourney(foodId) {
         `;
 
         addMap3HistoricalMarker(
-            position,
-            stop.order,
+            map3StopPosition(stop),
+            stop,
             popup
         );
     });
 
-    // Connect consecutive stops within the same route group.
-    for (let i = 1; i < stops.length; i++) {
-        const previous = stops[i - 1];
-        const current = stops[i];
+    // Branch from the first stop to all later stops
+    // that belong to the same route group.
+    map3JourneyRoutes = [];
 
-        if (
-            previous.routeGroup &&
-            previous.routeGroup === current.routeGroup
-        ) {
-            addMap3Route(
-                [previous.latitude, previous.longitude],
-                [current.latitude, current.longitude]
-            );
-        }
+    if (stops.length >= 2) {
+        const origin = stops[0];
+
+        stops.slice(1).forEach(stop => {
+            if (
+                origin.routeGroup &&
+                origin.routeGroup === stop.routeGroup
+            ) {
+                map3JourneyRoutes.push({
+                    start: map3StopPosition(origin),
+                    end: map3StopPosition(stop)
+                });
+            }
+        });
     }
+
+    map3DrawJourney(true);
 }
 
-// Display a food's botanical distribution and historical journey.
+// Create a Replay Journey button automatically.
+function map3AddReplayButton() {
+    const controls = document.getElementById(
+        'map3-food-controls'
+    );
+
+    if (
+        !controls ||
+        document.getElementById('map3-replay-button')
+    ) {
+        return;
+    }
+
+    const replay = document.createElement('button');
+
+    replay.type = 'button';
+    replay.id = 'map3-replay-button';
+    replay.textContent = '⛵ Replay Journey';
+
+    replay.setAttribute(
+        'aria-label',
+        'Replay the historical journey animation'
+    );
+
+    replay.addEventListener('click', () => {
+        map3DrawJourney(true);
+    });
+
+    controls.insertAdjacentElement('afterend', replay);
+}
+
+// Display the botanical distribution and historical journey.
 function showMap3Food(foodId) {
+    map3ActiveFood = foodId;
+
     const foodCountries = {};
 
     map3DistributionRows.forEach(row => {
@@ -236,13 +375,22 @@ function showMap3Food(foodId) {
         }
     }).addTo(map3);
 
-    document.getElementById('map3-legend-title').textContent =
+    document.getElementById(
+        'map3-legend-title'
+    ).textContent =
         map3FoodNames[foodId] + ' Distribution';
 
-    document.querySelectorAll('.map3-food-btn').forEach(button => {
-        const isSelected = button.dataset.food === foodId;
+    document.querySelectorAll(
+        '.map3-food-btn'
+    ).forEach(button => {
+        const isSelected =
+            button.dataset.food === foodId;
 
-        button.classList.toggle('active', isSelected);
+        button.classList.toggle(
+            'active',
+            isSelected
+        );
+
         button.setAttribute(
             'aria-pressed',
             String(isSelected)
@@ -252,30 +400,38 @@ function showMap3Food(foodId) {
     showMap3HistoricalJourney(foodId);
 }
 
-// Load botanical distribution, country boundaries,
-// and historical stops before displaying the map.
+// Load the CSVs and GeoJSON before displaying the map.
 Promise.all([
     fetch('Data/map3_distribution_country_codes.csv')
         .then(response => {
             if (!response.ok) {
-                throw new Error('Could not load Map 3 distribution CSV');
+                throw new Error(
+                    'Could not load Map 3 distribution CSV'
+                );
             }
+
             return response.text();
         }),
 
     fetch('Data/world-countries.geojson')
         .then(response => {
             if (!response.ok) {
-                throw new Error('Could not load world GeoJSON');
+                throw new Error(
+                    'Could not load world GeoJSON'
+                );
             }
+
             return response.json();
         }),
 
     fetch('Data/map3_historical_stops.csv')
         .then(response => {
             if (!response.ok) {
-                throw new Error('Could not load historical stops CSV');
+                throw new Error(
+                    'Could not load historical stops CSV'
+                );
             }
+
             return response.text();
         })
 ])
@@ -292,15 +448,17 @@ Promise.all([
         skipEmptyLines: true
     }).data;
 
+    map3AddReplayButton();
     showMap3Food('potato');
 
-    document.querySelectorAll('.map3-food-btn').forEach(button => {
+    document.querySelectorAll(
+        '.map3-food-btn'
+    ).forEach(button => {
         button.addEventListener('click', () => {
             showMap3Food(button.dataset.food);
         });
     });
 
-    // Customize console
     console.log(
         `🌎 Map 3 is being awesome! ${map3HistoricalStops.length} historical stops loaded!`
     );
@@ -308,5 +466,8 @@ Promise.all([
     console.log('📚 Learning activated!');
 })
 .catch(error => {
-    console.error('❌ Map 3 encountered a problem:', error);
+    console.error(
+        '❌ Map 3 encountered a problem:',
+        error
+    );
 });
