@@ -525,7 +525,7 @@ Promise.all([
 .catch(error => {
 
     console.error(
-        '❌ Map 1 ain't workin', back to the code yo!:',
+        '❌ Map 1 is not working, back to the code yo!:',
         error
     );
 });
