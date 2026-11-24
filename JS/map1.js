@@ -86,11 +86,27 @@ setTimeout(() => map1.invalidateSize(), 200);
    ========================================================= */
 
 const map1Colors = {
-    researched: '#B58438',
-    noData: '#F4EBD8',
-    border: '#762E43',
-    selected: '#254E46'
+    noData: '#E9D9B8',
+    border: '#51483F',
+    selected: '#24476A'
 };
+
+const map1RegionColors = {
+    'North America': '#35669A',
+    'South America': '#449C87',
+    'Europe': '#80569E',
+    'Africa': '#D4A13E',
+    'Asia': '#A44260',
+    'Oceania': '#CB7952'
+};
+
+function map1GetColor(iso) {
+    const data = map1FoodData[iso];
+
+    return data
+        ? map1RegionColors[data.Continent] || map1Colors.noData
+        : map1Colors.noData;
+}
 
 
 /* =========================================================
@@ -254,13 +270,15 @@ function map1SelectCountry(isoCode) {
         const layerData = map1FoodData[layerISO];
 
         layer.setStyle({
-            fillColor:
-                layerISO === isoCode
-                    ? map1Colors.selected
-                    : layerData
-                        ? map1Colors.researched
-                        : map1Colors.noData
-        });
+    fillColor: map1GetColor(layerISO),
+    color: layerISO === isoCode
+        ? map1Colors.selected
+        : map1Colors.border,
+    weight: layerISO === isoCode ? 3 : 0.7,
+    fillOpacity: layerISO === isoCode
+        ? 0.95
+        : layerData ? 0.8 : 0.12
+});
 
         if (layerISO === isoCode) {
 
@@ -311,13 +329,11 @@ function map1DrawCountries() {
             const hasData = Boolean(map1FoodData[iso]);
 
             return {
-                color: map1Colors.border,
-                weight: 0.7,
-                fillColor: hasData
-                    ? map1Colors.researched
-                    : map1Colors.noData,
-                fillOpacity: hasData ? 0.75 : 0.12
-            };
+    color: map1Colors.border,
+    weight: 0.7,
+    fillColor: map1GetColor(iso),
+    fillOpacity: hasData ? 0.8 : 0.12
+};
         },
 
         onEachFeature: (feature, layer) => {
