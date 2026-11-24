@@ -141,55 +141,67 @@ function map1EscapeHTML(value) {
 }
 
 
+
 /* =========================================================
    SECTION 6: BUILD COUNTRY INFORMATION
-   =========================================================
-
-   MARCUS:
-   This function takes a country's information from
-   the spreadsheet and formats it for the map popup
-   and the sidebar.
-
-   Your CSV needs these exact column headings, so if you add/remove column on the spreadsheet, you'll change this section to:
-
-   Country
-   ISO
-   National Dish
-   Staples
-   Notable Foods
-   Sources
-
-   Example spreadsheet row:
-
-   Country: Mexico
-   ISO: MEX
-   National Dish: [research and enter a dish]
-   Staples: [research and enter staple foods]
-   Notable Foods: [research and enter examples]
-   Sources: [add your research source]
-
-   You can customize the labels below.
-
    ========================================================= */
 
+// Remove dollar amounts from agricultural trade data.
+function map1CleanTrade(value) {
+    return String(value || '')
+        .replace(/\s*\(\s*\$[^)]*\)/g, '')
+        .trim();
+}
+
+// Format country information for the popup.
 function map1BuildCountryHTML(data) {
 
+    const dish = data['Popular Dishes'];
+    const description = data['Popular Dishes Details'];
+
+    const imports = map1CleanTrade(
+        data['Important Agricultural Imports']
+    );
+
+    const exports = map1CleanTrade(
+        data['Important Agricultural Exports']
+    );
+
+    const recipe = String(data['Recipe Link'] || '').trim();
+
+    // Only display a recipe link if a valid web link exists.
+    const recipeHTML = /^https?:\/\/[^\s]+$/i.test(recipe)
+        ? `<a href="${map1EscapeHTML(recipe)}"
+              target="_blank"
+              rel="noopener noreferrer">Recipe</a>`
+        : '';
+
     return `
-        <strong>${map1EscapeHTML(data.Country)}</strong>
-        <br><br>
+        <div class="map1-country-popup">
 
-        <strong>National Dish:</strong>
-        ${map1EscapeHTML(data['National Dish'])}
-        <br><br>
+            <h3>${map1EscapeHTML(data.Country)}</h3>
 
-        <strong>Staple Foods:</strong>
-        ${map1EscapeHTML(data.Staples)}
-        <br><br>
+            <strong>Popular Dish:</strong>
+            <br>
+            ${map1EscapeHTML(dish)}
 
-        <strong>Notable Foods:</strong>
-        ${map1EscapeHTML(data['Notable Foods'])}
+            <p>${map1EscapeHTML(description)}</p>
+
+            ${recipeHTML}
+
+            <hr>
+
+            <strong>Foods they buy:</strong>
+            ${map1EscapeHTML(imports)}
+            <br><br>
+
+            <strong>Foods they sell:</strong>
+            ${map1EscapeHTML(exports)}
+
+        </div>
     `;
 }
+
 
 
 /* =========================================================
@@ -227,7 +239,12 @@ function map1SelectCountry(isoCode) {
 
     dropdown.value = isoCode;
 
-    infoPanel.innerHTML = map1BuildCountryHTML(data);
+   infoPanel.innerHTML = `
+    Select a country to discover a popular dish
+    and explore the foods it buys and sells
+    around the world. Try making the
+    dish at home using the recipe link!
+`;
 
     map1CountryLayer.eachLayer(layer => {
 
@@ -444,24 +461,26 @@ Promise.all([
 
     map1WorldGeoJSON = worldGeoJSON;
 
+    
     rows.forEach(row => {
 
-        const iso = String(row.ISO || '')
+        const iso = String(row['ISO Code'] || '')
             .trim()
             .toUpperCase();
 
         const countryName = String(row.Country || '')
             .trim();
 
-        // Only add rows with a valid-looking ISO code
-        // and at least one piece of researched food data.
+        // Check whether the country has researched food data.
         const hasFoodInformation = [
-            row['National Dish'],
-            row.Staples,
-            row['Notable Foods']
+            row['Popular Dishes'],
+            row['Popular Dishes Details'],
+            row['Important Agricultural Imports'],
+            row['Important Agricultural Exports']
         ].some(value => String(value || '').trim());
 
-        if (iso.length === 3 &&
+        // Match the spreadsheet to the GeoJSON country shapes.
+        if (/^[A-Z]{3}$/.test(iso) &&
             countryName &&
             hasFoodInformation) {
 
@@ -471,6 +490,8 @@ Promise.all([
             map1FoodData[iso] = row;
         }
     });
+
+
 
     map1DrawCountries();
     map1PopulateDropdown();
