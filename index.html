@@ -400,6 +400,38 @@
 		
 
 		
+    
+/* MAP 1: COUNTRY POPUPS AND SIDEBAR LEGEND */
+#map1-map .leaflet-popup-content-wrapper {
+    background: #FAF8F2; border: 3px solid #24476A; border-radius: 12px;
+}
+#map1-map .leaflet-popup-tip { background: #24476A; }
+#map1-map .leaflet-popup-content {
+    font: 400 13px/1.5 Verdana, Geneva, sans-serif;
+    color: #24476A; text-align: left; margin: 16px;
+    width: min(290px, calc(100vw - 120px)) !important;
+    overflow-wrap: anywhere;
+}
+#map1-map .leaflet-popup-close-button { color: #24476A; }
+#map1-map .map1-country-popup h3 {
+    font: 400 25px/1.15 'Lilita One', sans-serif;
+    color: #24476A; text-align: center; margin: 0 0 4px;
+}
+#map1-map .map1-flag { text-align: center; font: 30px/1.2 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif; }
+#map1-map .map1-continent { text-align: center; font-size: 12px; }
+#map1-map .map1-country-popup hr { border-color: #B58438; opacity: .65; margin: 10px 0; }
+#map1-map .map1-dish-label { font-size: 12px; }
+#map1-map .map1-dish-name { font-size: 17px; font-weight: bold; }
+#map1-map .map1-country-popup p { margin: 6px 0; }
+#map1-map .map1-country-popup a { color: #24476A; text-decoration: underline; }
+#map1-map .map1-trade-gap { height: 8px; }
+#map1-legend { border-top: 1px solid #B58438; padding-top: 15px; }
+#map1-legend ul { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; padding: 0; list-style: none; font-size: .85rem; }
+#map1-legend li { display: flex; align-items: center; gap: 7px; }
+#map1-legend .map1-swatch { width: 20px; height: 17px; border: 1px solid #51483F; border-radius: 2px; flex-shrink: 0; }
+.map-source-link { color: #24476A; font-size: .85rem; text-decoration: underline; text-underline-offset: 3px; }
+.map-source-link:focus-visible, #map1-map a:focus-visible { outline: 2px solid #24476A; outline-offset: 3px; }
+
     </style>
 </head>
 
@@ -543,17 +575,14 @@
                     role="region"
                     aria-label="Interactive world map exploring traditional foods by country">
                 </div>
+<div class="text-end mt-2"><a class="map-source-link" href="#map1-sources">View Sources ↓</a></div>
 
                 <!-- MAP 1 EDUCATIONAL DESCRIPTION -->
 
                 <div class="mt-4">
 
                     <p>
-                        Explore how geography, culture, and history
-                        shape culinary traditions around the world.
-                        Select a country to discover traditional
-                        dishes, staple foods, and the ingredients
-                        that connect communities.
+                        Geography, climate, and culture shape the foods people eat. Explore how countries share ingredients and culinary traditions through trade.
                     </p>
 
                     <!--
@@ -584,9 +613,7 @@
                     <h3>Explore by Country</h3>
 
                     <p>
-                        Choose a country to discover its
-                        traditional dishes, staple foods,
-                        and culinary influences.
+                        Discover popular dishes from around the world and explore the foods each country buys and sells. You can even try making these dishes at home using the recipe links!
                     </p>
 
                     <!-- COUNTRY DROPDOWN -->
@@ -664,26 +691,7 @@
                     </div>
 
 
-                    <!-- ==================================
-                         FUTURE FEATURES
-                         ==================================
-
-                         MARCUS:
-                         We can add these later:
-
-                         1. Continent selection dropdown.
-
-                         2. Country flag emojis.
-
-                         3. Photos of traditional dishes.
-
-                         4. Additional cultural information.
-
-                         5. Links to food-history resources.
-
-                         But let's get the basic map working first,
-						we can add more fun stuff later!
-                         ================================== -->
+                    <div id="map1-legend" class="mt-4"><h4 class="fs-6 fw-bold">Explore the Continents</h4><ul><li><span class="map1-swatch" style="background:#35669A" aria-hidden="true"></span>North America</li><li><span class="map1-swatch" style="background:#449C87" aria-hidden="true"></span>South America</li><li><span class="map1-swatch" style="background:#80569E" aria-hidden="true"></span>Europe</li><li><span class="map1-swatch" style="background:#D4A13E" aria-hidden="true"></span>Africa</li><li><span class="map1-swatch" style="background:#A44260" aria-hidden="true"></span>Asia</li><li><span class="map1-swatch" style="background:#CB7952" aria-hidden="true"></span>Oceania</li><li><span class="map1-swatch" style="background:#E9D9B8" aria-hidden="true"></span>No data</li></ul></div>
 
                 </div>
 
@@ -738,6 +746,7 @@
                      role="region"
                      aria-label="Interactive world map showing global food statistics">
                 </div>
+<div class="text-end mt-2"><a class="map-source-link" href="#map2-sources">View Sources ↓</a></div>
 
                 <div class="mt-4">
                     
@@ -887,6 +896,7 @@
          role="region"
          aria-label="Interactive world map showing the origins and historical spread of foods">
     </div>
+<div class="text-end mt-2"><a class="map-source-link" href="#map3-sources">View Sources ↓</a></div>
 </div>
 
 
@@ -999,7 +1009,7 @@
             </p>
 
             <!-- MAP 1 -->
-            <section class="mb-4">
+            <section id="map1-sources" class="mb-4">
                 <h3>Explorer Map</h3>
 
                 <p>
@@ -1010,7 +1020,7 @@
             </section>
 
             <!-- MAP 2 -->
-            <section class="mb-4">
+            <section id="map2-sources" class="mb-4">
                 <h3>Food Patterns Map</h3>
 
                 <p>
@@ -1022,7 +1032,7 @@
             </section>
 
             <!-- MAP 3 -->
-            <section class="mb-4">
+            <section id="map3-sources" class="mb-4">
                 <h3>Food History Map</h3>
 
                 <p>
@@ -1081,7 +1091,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 	<!-- MAP 1: THE GLOBAL FOOD EXPLORER (MARCUS) -->
-<script src="JS/map1.js"></script>
+<script src="JS/map1.js?v=3"></script>
 
 
 <!-- MAP 2: GLOBAL FOOD PATTERNS -->
