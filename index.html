@@ -424,7 +424,8 @@
 #map1-map .map1-dish-name { font-size: 17px; font-weight: bold; }
 #map1-map .map1-country-popup p { margin: 6px 0; }
 #map1-map .map1-country-popup a { color: #24476A; text-decoration: underline; }
-#map1-map .map1-trade-gap { height: 8px; }
+#map1-map .map1-trade-gap { height: 4px; }
+#map1-map .map1-flag img { width: 42px; height: auto; border: 1px solid #D5C5A6; }
 #map1-legend { border-top: 1px solid #B58438; padding-top: 15px; }
 #map1-legend ul { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; padding: 0; list-style: none; font-size: .85rem; }
 #map1-legend li { display: flex; align-items: center; gap: 7px; }
@@ -613,7 +614,7 @@
                     <h3>Explore by Country</h3>
 
                     <p>
-                        Discover popular dishes from around the world and explore the foods each country buys and sells. You can even try making these dishes at home using the recipe links!
+                        Discover popular dishes from around the world and the foods each country buys and sells. Try making a dish at home using its recipe link!
                     </p>
 
                     <!-- COUNTRY DROPDOWN -->
@@ -656,40 +657,7 @@
                     </div>
 
 
-                    <!-- COUNTRY INFORMATION PANEL -->
-
-                    <div
-                        id="map1-country-info"
-                        class="mt-4"
-                        aria-live="polite">
-
-                        <p>
-                            Select a country from the dropdown
-                            or click a highlighted country
-                            on the map to begin exploring!
-                        </p>
-
-                        <!--
-                            MARCUS:
-                            JavaScript will replace this text
-                            with information from the CSV.
-
-                            Example information:
-
-                            Country: Mexico
-                            National Dish: [Research needed]
-                            Staples: [Research needed]
-                            Notable Foods: [Research needed]
-
-                            The actual information will come
-                            from our spreadsheet.
-
-                            You do not need to write the
-                            country descriptions here.
-                        -->
-
-                    </div>
-
+                    <p class="mt-3 small fst-italic">Or click a country directly on the map.</p>
 
                     <div id="map1-legend" class="mt-4"><h4 class="fs-6 fw-bold">Explore the Continents</h4><ul><li><span class="map1-swatch" style="background:#35669A" aria-hidden="true"></span>North America</li><li><span class="map1-swatch" style="background:#449C87" aria-hidden="true"></span>South America</li><li><span class="map1-swatch" style="background:#80569E" aria-hidden="true"></span>Europe</li><li><span class="map1-swatch" style="background:#D4A13E" aria-hidden="true"></span>Africa</li><li><span class="map1-swatch" style="background:#A44260" aria-hidden="true"></span>Asia</li><li><span class="map1-swatch" style="background:#CB7952" aria-hidden="true"></span>Oceania</li><li><span class="map1-swatch" style="background:#E9D9B8" aria-hidden="true"></span>No data</li></ul></div>
 
@@ -1091,7 +1059,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 	<!-- MAP 1: THE GLOBAL FOOD EXPLORER (MARCUS) -->
-<script src="JS/map1.js?v=3"></script>
+<script src="JS/map1.js?v=4"></script>
 
 
 <!-- MAP 2: GLOBAL FOOD PATTERNS -->
