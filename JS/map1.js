@@ -166,6 +166,11 @@ function map1EscapeHTML(value) {
 function map1CleanTrade(value) {
     return String(value || '')
         .replace(/\s*\(\s*\$[^)]*\)/g, '')
+        .replace(/\bRice, broken\b/gi, 'Broken rice')
+        .replace(/\bCoffee, green\b/gi, 'Unroasted coffee beans')
+        .replace(/\bFigs, dried\b/gi, 'Dried figs')
+        .replace(/\bHazelnuts, shelled\b/gi, 'Shelled hazelnuts')
+        .replace(/\bOlives, preserved\b/gi, 'Preserved olives')
         .trim();
 }
 
@@ -174,7 +179,7 @@ const map1FlagCodes = {"ABW": "AW", "AFG": "AF", "AGO": "AO", "AIA": "AI", "ALA"
 
 function map1Flag(iso) {
     const code = map1FlagCodes[iso];
-    return code ? String.fromCodePoint(...Array.from(code, c => 127397 + c.charCodeAt(0))) : "";
+    return code ? `<img src="https://flagcdn.com/w80/${code.toLowerCase()}.png" alt="" onerror="this.hidden=true">` : "";
 }
 
 // Format country information for the popup.
@@ -344,7 +349,7 @@ function map1DrawCountries() {
 
                 layer.bindPopup(
                     map1BuildCountryHTML(data),
-                    { maxWidth: 320, minWidth: 220, maxHeight: 310, autoPanPadding: [15, 15] }
+                    { maxWidth: 320, minWidth: 220, maxHeight: 310, autoPanPaddingTopLeft: [55, 85], autoPanPaddingBottomRight: [15, 20] }
                 );
 
                 layer.on('click', () => {
@@ -520,7 +525,7 @@ Promise.all([
 .catch(error => {
 
     console.error(
-        '❌ Map 1 is not working, back to the code yo!:',
+        '❌ Map 1 ain't workin', back to the code yo!:',
         error
     );
 });
