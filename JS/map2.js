@@ -33,7 +33,7 @@ L.tileLayer(
 const foodSettings = {
 
     'All meat': {
-        title: 'All Meat',
+        title: 'Meat (all)',
         colors: ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'],  
 description:
     'How much of the world’s available food energy comes from meat? ' +
@@ -148,22 +148,15 @@ description:
 
     },
 
-    'Sugar cane': {
-        title: 'Sugar Cane',
+    'Sugar & Sweeteners': {
+        title: 'Sugar & Sweeteners',
         colors: ['#edf8fb', '#b2e2e2', '#66c2a4', '#2ca25f', '#006d2c'],
-       
-description:
-    'Sugar cane has a fascinating history connecting agriculture, ' +
-    'trade, colonization, and global food systems. Originally ' +
-    'cultivated in parts of Asia and the Pacific, it spread ' +
-    'across the world and became an important plantation crop. ' +
-    'Explore the map and notice how many countries report little ' +
-    'or no calorie availability in this category. Why might ' +
-    'that be? Consider climate, agricultural production, food ' +
-    'processing, and the difference between raw crops and the ' +
-    'foods made from them. Remember that these figures do not ' +
-    'represent all sugar consumed.'
-
+        description:
+            'From birthday cakes to breakfast cereals, sugar is found in many of the foods we enjoy. ' +
+            'Most sugar comes from two crops: sugar cane and sugar beets. ' +
+            'Explore the map and compare how much food energy is available from sugar and sweeteners around the world. ' +
+            'What patterns do you notice? Think about how agriculture, trade, food traditions, and processed foods might influence these differences. ' +
+            'Remember, these numbers represent food availability, not necessarily how much sugar people actually eat.'
     },
 
     'Total daily calorie supply': {
@@ -254,25 +247,6 @@ function calculateBreaks(category) {
         return [];
     }
 
-    // Sugar cane: zero gets its own class.
-    // Positive values are divided into four groups.
-
-    if (category === 'Sugar cane') {
-
-        const positive = values.filter(value => value > 0);
-
-        if (positive.length === 0) {
-            return [0, 0, 0, 0];
-        }
-
-        return [
-            0,
-            percentile(positive, 0.25),
-            percentile(positive, 0.50),
-            percentile(positive, 0.75)
-        ];
-    }
-
     return [
         percentile(values, 0.20),
         percentile(values, 0.40),
@@ -354,23 +328,9 @@ function updateFoodLegend() {
 
     // Build the five class labels.
 
-    let labels;
 
-    if (selectedFood === 'Sugar cane') {
 
-        labels = [
-            'Exactly 0',
-            'Above 0 to ' + formatFoodNumber(breaks[1]),
-            'Above ' + formatFoodNumber(breaks[1]) +
-                ' to ' + formatFoodNumber(breaks[2]),
-            'Above ' + formatFoodNumber(breaks[2]) +
-                ' to ' + formatFoodNumber(breaks[3]),
-            'Above ' + formatFoodNumber(breaks[3])
-        ];
-
-    } else {
-
-        labels = [
+    const labels = [
             'Up to ' + formatFoodNumber(breaks[0]),
             'Above ' + formatFoodNumber(breaks[0]) +
                 ' to ' + formatFoodNumber(breaks[1]),
@@ -381,7 +341,6 @@ function updateFoodLegend() {
             'Above ' + formatFoodNumber(breaks[3])
         ];
 
-    }
 
     // Clear the old legend.
 
@@ -389,7 +348,7 @@ function updateFoodLegend() {
 
     const heading = document.createElement('h3');
     heading.className = 'map2-legend-title';
-    heading.textContent = settings.title + ' — 2023';
+    heading.textContent = settings.title;
     legend.appendChild(heading);
 
     const unit = document.createElement('p');
@@ -434,6 +393,11 @@ function updateFoodLegend() {
     missingRow.appendChild(missingSwatch);
     missingRow.appendChild(missingLabel);
     legend.appendChild(missingRow);
+
+    const note = document.createElement('p');
+    note.className = 'map2-legend-note';
+    note.textContent = 'All statistics shown are based on 2023 data.';
+    legend.appendChild(note);
 
 
 }
@@ -518,8 +482,6 @@ function updateFoodMap() {
         } else {
             addText('div', 'map2-popup-unit', 'No data available');
         }
-        popup.appendChild(document.createElement('hr'));
-        addText('div', 'map2-popup-source', '2023 · Our World in Data');
         layer.bindPopup(popup, { maxWidth: 300, minWidth: 180,
             autoPan: true, autoPanPadding: [25, 25] });
 
