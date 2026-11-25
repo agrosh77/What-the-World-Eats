@@ -433,6 +433,27 @@
 .map-source-link { color: #24476A; font-size: .85rem; text-decoration: underline; text-underline-offset: 3px; }
 .map-source-link:focus-visible, #map1-map a:focus-visible { outline: 2px solid #24476A; outline-offset: 3px; }
 
+    
+/* MAP 2: COUNTRY STATISTIC POPUPS */
+#map2-map .leaflet-popup-content-wrapper {
+    background: #FAF8F2; border: 3px solid #24476A; border-radius: 12px;
+}
+#map2-map .leaflet-popup-tip { background: #24476A; }
+#map2-map .leaflet-popup-close-button { color: #24476A; }
+#map2-map .leaflet-popup-content {
+    font: 400 13px/1.5 Verdana, Geneva, sans-serif;
+    color: #24476A; margin: 16px; text-align: center;
+    width: min(250px, calc(100vw - 120px)) !important;
+    overflow-wrap: anywhere;
+}
+.map2-popup-country { font: 400 25px/1.15 'Lilita One', sans-serif; color: #24476A; margin: 0 0 8px; }
+.map2-popup-flag { width: 42px; height: auto; border: 1px solid #D5C5A6; }
+.map2-country-popup hr { border-color: #B58438; opacity: .65; margin: 10px 0; }
+.map2-popup-category { font-size: 14px; font-weight: bold; }
+.map2-popup-value { font: 400 34px/1.2 'Lilita One', sans-serif; color: #254E46; margin: 6px 0; }
+.map2-popup-unit { font-size: 12px; }
+.map2-popup-source { font-size: 11px; }
+
     </style>
 </head>
 
@@ -1059,11 +1080,11 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 	<!-- MAP 1: THE GLOBAL FOOD EXPLORER (MARCUS) -->
-<script src="JS/map1.js?v=4"></script>
+<script src="JS/map1.js?v=5"></script>
 
 
 <!-- MAP 2: GLOBAL FOOD PATTERNS -->
-<script src="JS/map2.js?v=2"></script>
+<script src="JS/map2.js?v=3"></script>
 
 	
 	<!-- MAP 3: HISTORICAL FOOD DISTRIBUTION -->
