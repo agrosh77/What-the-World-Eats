@@ -488,34 +488,40 @@ function updateFoodMap() {
         const countryName =
             feature.properties.name || iso;
 
-        // Build popup text safely using DOM elements.
-
+        // Build the popup with textContent to keep data safe.
         const popup = document.createElement('div');
+        popup.className = 'map2-country-popup';
 
-        const heading = document.createElement('strong');
-        heading.textContent = countryName;
-        popup.appendChild(heading);
-
-        const detail = document.createElement('p');
-        detail.style.marginBottom = '0';
-
-        if (record) {
-
-            detail.textContent =
-                foodSettings[selectedFood].title +
-                ' (2023): ' +
-                formatFoodNumber(record.value) + ' ' +
-                getFoodUnit(selectedFood);
-
-        } else {
-
-            detail.textContent =
-                'No data available for this statistic.';
-
+        function addText(tag, className, text) {
+            const element = document.createElement(tag);
+            element.className = className;
+            element.textContent = text;
+            popup.appendChild(element);
         }
 
-        popup.appendChild(detail);
-        layer.bindPopup(popup);
+        addText('h3', 'map2-popup-country', countryName);
+        const flagCode = feature.properties.iso_a2 ||
+            (typeof map1FlagCodes !== 'undefined' ? map1FlagCodes[iso] : '');
+        if (/^[A-Za-z]{2}$/.test(flagCode || '')) {
+            const flag = document.createElement('img');
+            flag.className = 'map2-popup-flag';
+            flag.src = 'https://flagcdn.com/w80/' + flagCode.toLowerCase() + '.png';
+            flag.alt = '';
+            flag.onerror = function() { this.hidden = true; };
+            popup.appendChild(flag);
+        }
+        popup.appendChild(document.createElement('hr'));
+        addText('div', 'map2-popup-category', foodSettings[selectedFood].title);
+        if (record) {
+            addText('div', 'map2-popup-value', formatFoodNumber(record.value));
+            addText('div', 'map2-popup-unit', getFoodUnit(selectedFood));
+        } else {
+            addText('div', 'map2-popup-unit', 'No data available');
+        }
+        popup.appendChild(document.createElement('hr'));
+        addText('div', 'map2-popup-source', '2023 · Our World in Data');
+        layer.bindPopup(popup, { maxWidth: 300, minWidth: 180,
+            autoPan: true, autoPanPadding: [25, 25] });
 
     });
 
