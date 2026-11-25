@@ -102,6 +102,7 @@ const map1RegionColors = {
 
 function map1GetColor(iso) {
     const data = map1FoodData[iso];
+    if (iso === "GUF") return map1RegionColors["South America"];
 
     return data
         ? map1RegionColors[String(data.Continent || "").trim()] || map1Colors.noData
@@ -297,7 +298,11 @@ dropdown.value = isoCode;
                 });
             }
 
-            layer.openPopup();
+            if (isoCode === 'FRA') {
+                layer.openPopup(L.latLng(46.6, 2.4));
+            } else {
+                layer.openPopup();
+            }
         }
     });
 }
@@ -347,6 +352,9 @@ function map1DrawCountries() {
             const iso = feature.properties.iso_a3;
             const data = map1FoodData[iso];
 
+            if (iso === 'GUF' && !data) {
+                layer.bindPopup('<div class="map1-country-popup"><h3>French Guiana</h3><div class="map1-continent">South America · France</div><hr>No separate food data available.</div>');
+            }
             if (data) {
 
                 layer.bindPopup(
@@ -481,7 +489,35 @@ Promise.all([
         skipEmptyLines: true
     }).data;
 
-    map1WorldGeoJSON = worldGeoJSON;
+    // Separate French Guiana for geographic display on Map 1 only.
+    // It remains an overseas department of France.
+    const map1Features = [];
+    worldGeoJSON.features.forEach(feature => {
+        if (feature.properties.iso_a3 === 'FRA' &&
+            feature.geometry.type === 'MultiPolygon') {
+            const european = [];
+            const guiana = [];
+            feature.geometry.coordinates.forEach(polygon => {
+                if (polygon[0][0][0] < -40 && polygon[0][0][1] < 15) {
+                    guiana.push(polygon);
+                } else {
+                    european.push(polygon);
+                }
+            });
+            map1Features.push({ ...feature, geometry: {
+                type: 'MultiPolygon', coordinates: european
+            }});
+            if (guiana.length) {
+                map1Features.push({ ...feature, properties: {
+                    ...feature.properties, iso_a3: 'GUF',
+                    name: 'French Guiana (France)', continent: 'South America'
+                }, geometry: { type: 'MultiPolygon', coordinates: guiana }});
+            }
+        } else {
+            map1Features.push(feature);
+        }
+    });
+    map1WorldGeoJSON = { ...worldGeoJSON, features: map1Features };
 
     
     rows.forEach(row => {
