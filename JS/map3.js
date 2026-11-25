@@ -1,473 +1,619 @@
 
-const map3 = L.map('map3-map', {
-    worldCopyJump: true,
-    scrollWheelZoom: false
+/* ==========================================
+   MAP 2: GLOBAL FOOD PATTERNS
+   Interactive choropleth
+   ========================================== */
+
+// Create the Leaflet map
+const foodMap = L.map('map2-map', {
+    worldCopyJump: true
 }).setView([15, 0], 2);
+
+
+/* ==========================================
+   MAP 2: ESRI BASEMAP
+   ========================================== */
 
 L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
     {
         attribution: 'Tiles &copy; Esri',
-        maxZoom: 17
+        maxZoom: 19
     }
-).addTo(map3);
+).addTo(foodMap);
 
-setTimeout(() => map3.invalidateSize(), 200);
 
-let map3DistributionLayer = null;
+/* ==========================================
+   MAP 2: FOOD CATEGORY SETTINGS
+   ========================================== */
 
-const map3HistoricalRoutes = L.layerGroup().addTo(map3);
-const map3HistoricalMarkers = L.layerGroup().addTo(map3);
+// Colors run from lowest to highest values.
+// Each category uses five sequential colors.
 
-const map3Colors = {
-    native: '#719C65',
-    introduced: '#AA7AB1'
+const foodSettings = {
+
+    'All meat': {
+        title: 'Meat (all)',
+        colors: ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'],  
+description:
+    'How much of the world’s available food energy comes from meat? ' +
+    'As you explore the map, notice which countries have higher or ' +
+    'lower values. Do certain regions share similar patterns? ' +
+    'Meat availability can be influenced by livestock farming, ' +
+    'economic conditions, cultural traditions, and international ' +
+    'trade. But remember, these numbers represent calories ' +
+    'available per person, not necessarily what individuals ' +
+    'actually eat. What might explain the differences you discover?'
+
+    },
+
+    'Fruit': {
+        title: 'Fruit',
+        colors: ['#fff7bc', '#fec44f', '#fe9929', '#ec7014', '#cc4c02'],
+        description:
+    'From tropical mangoes to apples grown in cooler climates, ' +
+    'fruit is an important part of diets around the world. ' +
+    'But where are calories from fruit most widely available? ' +
+    'Explore the map and look for regional patterns. ' +
+    'Are countries with warmer climates always higher, or do ' +
+    'you notice some surprises? Think about how growing ' +
+    'conditions, transportation, preservation, and international ' +
+    'trade make it possible for people to enjoy fruits grown ' +
+    'thousands of miles away.'
+    },
+
+    'Nuts': {
+        title: 'Nuts',
+        colors: ['#f1eef6', '#bdc9e1', '#74a9cf', '#2b8cbe', '#045a8d'],
+        
+description:
+    'Almonds, peanuts, walnuts, and other nuts appear in cuisines ' +
+    'across the world, from everyday snacks to traditional dishes. ' +
+    'Explore where calories from nuts are most widely available. ' +
+    'Do you notice clusters of countries with similar values? ' +
+    'Some nuts are closely associated with particular growing ' +
+    'regions, but international trade carries them far beyond ' +
+    'their places of origin. How might local agriculture, ' +
+    'culinary traditions, and access to imported foods influence ' +
+    'the patterns you see?'
+
+    },
+
+    'Rice': {
+        title: 'Rice',
+        colors: ['#ffffcc', '#c2e699', '#78c679', '#31a354', '#006837'],
+        
+description:
+    'Rice is one of the world’s most important staple foods, ' +
+    'but its role in everyday diets varies enormously. ' +
+    'Where is the greatest amount of rice available per person? ' +
+    'Explore Asia, Africa, and the Americas, and look for ' +
+    'similarities and differences. Rice cultivation depends on ' +
+    'particular environmental conditions, but centuries of ' +
+    'migration, trade, and cultural exchange have also shaped ' +
+    'where people grow and eat it. Can you identify regions ' +
+    'where rice plays a particularly important role?'
+
+    },
+
+    'Wheat': {
+        title: 'Wheat',
+        colors: ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'],
+        
+description:
+    'Bread, pasta, noodles, and countless other foods begin with ' +
+    'wheat. But how important is wheat to food supplies around ' +
+    'the world? Explore the map and compare regions where wheat ' +
+    'provides a large share of available calories with those ' +
+    'where other staples may be more important. Wheat has ' +
+    'traveled alongside human migration, expanding agriculture, ' +
+    'and global trade for thousands of years. What connections ' +
+    'can you find between geography, history, and the patterns ' +
+    'on the map?'
+
+    },
+
+    'Corn': {
+        title: 'Corn / Maize',
+        colors: ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'],
+        
+description:
+    'Did you know that maize was first domesticated in the ' +
+    'Americas thousands of years ago? Today, it is grown and ' +
+    'eaten around the world. Explore where maize contributes ' +
+    'the most calories to national food supplies. You might ' +
+    'recognize its importance in foods like tortillas, tamales, ' +
+    'and ugali, but its role varies widely between regions. ' +
+    'How did a crop with roots in the Americas become so ' +
+    'important elsewhere? What does this map reveal about ' +
+    'the movement of food through history?'
+
+    },
+
+    'Cheese': {
+        title: 'Cheese',
+        colors: ['#fff7ec', '#fee8c8', '#fdd49e', '#fdbb84', '#e34a33'],
+        
+description:
+    'From mozzarella and cheddar to feta and countless regional ' +
+    'varieties, cheese reflects a long history of dairy farming ' +
+    'and food traditions. But which countries produce the most? ' +
+    'Explore the map and compare national production totals. ' +
+    'Unlike the other food availability maps, this statistic ' +
+    'measures total cheese production in tonnes, not the amount ' +
+    'available per person. That means population size, the scale ' +
+    'of the dairy industry, and international exports can all ' +
+    'influence the results. Does a country producing more cheese ' +
+    'necessarily mean its people eat more?'
+
+    },
+
+    'Sugar & Sweeteners': {
+        title: 'Sugar & Sweeteners',
+        colors: ['#edf8fb', '#b2e2e2', '#66c2a4', '#2ca25f', '#006d2c'],
+        description:
+            'From birthday cakes to breakfast cereals, sugar is found in many of the foods we enjoy. ' +
+            'Most sugar comes from two crops: sugar cane and sugar beets. ' +
+            'Explore the map and compare how much food energy is available from sugar and sweeteners around the world. ' +
+            'What patterns do you notice? Think about how agriculture, trade, food traditions, and processed foods might influence these differences. ' +
+            'Remember, these numbers represent food availability, not necessarily how much sugar people actually eat.'
+    },
+
+    'Total daily calorie supply': {
+        title: 'Total Daily Calorie Supply',
+        colors: ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#756bb1', '#54278f'],
+       
+description:
+    'How much food energy is available to people around the ' +
+    'world? This map compares the average daily calorie supply ' +
+    'per person across countries. Look for regional patterns, ' +
+    'but also pay attention to neighboring countries with ' +
+    'surprisingly different values. Agriculture, international ' +
+    'trade, economic conditions, and food systems all influence ' +
+    'the availability of food. Remember that national averages ' +
+    'cannot tell us whether everyone has enough to eat. ' +
+    'What important questions about food access and inequality ' +
+    'remain unanswered by this map?'
+
+    }
+
 };
 
-const map3FoodNames = {
-    potato: 'Potato',
-    tomato: 'Tomato',
-    cacao: 'Cacao',
-    coffee: 'Coffee',
-    apple: 'Apple',
-    corn: 'Corn'
-};
 
-let map3DistributionRows = [];
-let map3HistoricalStops = [];
-let map3WorldGeoJSON = null;
+/* ==========================================
+   MAP 2: DATA AND CURRENT SELECTION
+   ========================================== */
 
-// Safely display spreadsheet text inside popup HTML.
-function map3EscapeHTML(value) {
-    return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
+const foodData = {};
+const foodBreaks = {};
 
-// Animated historical journeys: two routes branch from the first stop.
-// The routes are generalized illustrations, not documented direct voyages.
-let map3AnimationFrame = null;
-let map3ActiveFood = 'potato';
-let map3JourneyRoutes = [];
+let countryLayer = null;
+let selectedFood = 'All meat';
 
-// Add our styles without requiring changes to index.html.
-const map3AnimationStyles = document.createElement('style');
-map3AnimationStyles.textContent = `
-    .map3-history-dot {
-        display:block; width:15px; height:15px; border-radius:50%;
-        background:#B58438; border:3px solid #24476A;
-        box-shadow:0 2px 5px rgba(0,0,0,.3);
-    }
-    .map3-ship-icon { background:transparent; border:0; }
-    .map3-ship-icon span {
-        display:block; font-size:24px; line-height:28px;
-        filter:drop-shadow(1px 2px 1px #FFF9EF);
-    }
-    #map3-replay-button {
-        margin-top:14px; width:100%; padding:9px 12px;
-        border:2px solid #762E43; border-radius:6px;
-        background:#FAF8F2; color:#762E43;
-        font: bold 14px Verdana, sans-serif; cursor:pointer;
-    }
-    #map3-replay-button:hover { background:#E9D9B8; }
-    #map3-replay-button:focus-visible {
-        outline:3px solid #24476A; outline-offset:3px;
-    }
-`;
-document.head.appendChild(map3AnimationStyles);
+const noDataColor = '#D9D9D9';
 
-// Add a small, unnumbered historical location marker.
-function addMap3HistoricalMarker(position, stop, popupText) {
-    const dotIcon = L.divIcon({
-        className: 'map3-history-marker',
-        html: '<span class="map3-history-dot"></span>',
-        iconSize: [15, 15],
-        iconAnchor: [7, 7],
-        popupAnchor: [0, -10]
+
+/* ==========================================
+   MAP 2: CSV COLUMN CLEANUP
+   ========================================== */
+
+// Remove extra spaces from CSV column names.
+// This also fixes the "Unit " column heading.
+
+function cleanCSVRow(row) {
+
+    const cleaned = {};
+
+    Object.keys(row).forEach(function(key) {
+        cleaned[key.trim()] = row[key];
     });
 
-    L.marker(position, {
-        icon: dotIcon,
-        title: stop.name || 'Historical location',
-        alt: stop.name || 'Historical location',
-        keyboard: true
-    })
-    .bindPopup(popupText, { maxWidth: 260 })
-    .addTo(map3HistoricalMarkers);
+    return cleaned;
 }
 
-function map3StopPosition(stop) {
-    return [stop.latitude, stop.longitude];
-}
 
-function map3CancelAnimation() {
-    if (map3AnimationFrame !== null) {
-        cancelAnimationFrame(map3AnimationFrame);
-        map3AnimationFrame = null;
+/* ==========================================
+   MAP 2: QUANTILE CLASS BREAKS
+   ========================================== */
+
+// Calculate a percentile from sorted numeric values.
+
+function percentile(sortedValues, fraction) {
+
+    const position = (sortedValues.length - 1) * fraction;
+    const lower = Math.floor(position);
+    const upper = Math.ceil(position);
+
+    if (lower === upper) {
+        return sortedValues[lower];
     }
+
+    return sortedValues[lower] +
+        (sortedValues[upper] - sortedValues[lower]) *
+        (position - lower);
 }
 
-// Calculate the ship's position between the origin and destination.
-// Projected coordinates keep the ship on the visible Leaflet line.
-function map3PositionAlong(start, end, progress) {
-    const a = map3.project(L.latLng(start), 3);
-    const b = map3.project(L.latLng(end), 3);
 
-    return map3.unproject(L.point(
-        a.x + (b.x - a.x) * progress,
-        a.y + (b.y - a.y) * progress
-    ), 3);
+// Calculate four thresholds for five color classes.
+
+function calculateBreaks(category) {
+
+    const values = Object.values(foodData[category] || {})
+        .map(record => record.value)
+        .filter(Number.isFinite)
+        .sort((a, b) => a - b);
+
+    if (values.length === 0) {
+        return [];
+    }
+
+    return [
+        percentile(values, 0.20),
+        percentile(values, 0.40),
+        percentile(values, 0.60),
+        percentile(values, 0.80)
+    ];
 }
 
-// Draw the two routes and animate ships along them.
-function map3DrawJourney(animate = true) {
-    map3CancelAnimation();
-    map3HistoricalRoutes.clearLayers();
 
-    if (!map3JourneyRoutes.length) return;
+/* ==========================================
+   MAP 2: COLOR CLASSIFICATION
+   ========================================== */
 
-    const reduceMotion = window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function getFoodColor(value) {
 
-    const shouldAnimate = animate && !reduceMotion;
+    if (value === null || !Number.isFinite(value)) {
+        return noDataColor;
+    }
 
-    const visuals = map3JourneyRoutes.map(route => {
-        const line = L.polyline([], {
-            color: '#762E43',
-            weight: 3,
-            opacity: 0.9,
-            dashArray: '8, 7',
-            interactive: false
-        }).addTo(map3HistoricalRoutes);
+    const settings = foodSettings[selectedFood];
+    const breaks = foodBreaks[selectedFood];
 
-        // Emoji ships require no extra images or Leaflet plugins.
-        const ship = shouldAnimate ? L.marker(route.start, {
-            interactive: false,
-            keyboard: false,
-            icon: L.divIcon({
-                className: 'map3-ship-icon',
-                html: '<span aria-hidden="true">⛵</span>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
-            })
-        }).addTo(map3HistoricalRoutes) : null;
+    if (!settings || !breaks || breaks.length !== 4) {
+        return noDataColor;
+    }
 
-        return { ...route, line, ship };
+    if (value <= breaks[0]) return settings.colors[0];
+    if (value <= breaks[1]) return settings.colors[1];
+    if (value <= breaks[2]) return settings.colors[2];
+    if (value <= breaks[3]) return settings.colors[3];
+
+    return settings.colors[4];
+}
+
+
+/* ==========================================
+   MAP 2: NUMBER AND UNIT FORMATTING
+   ========================================== */
+
+function formatFoodNumber(value) {
+
+    return Number(value).toLocaleString('en-US', {
+        maximumFractionDigits: 2
     });
+}
 
-    function render(progress) {
-        visuals.forEach(route => {
-            const point = map3PositionAlong(
-                route.start,
-                route.end,
-                progress
-            );
 
-            // Reveal the route progressively.
-            route.line.setLatLngs([route.start, point]);
+function getFoodUnit(category) {
 
-            // Move the ship to the end of the growing route.
-            if (route.ship) {
-                route.ship.setLatLng(point);
-            }
-        });
+    if (category === 'Cheese') {
+        return 'tonnes produced nationally';
     }
 
-    if (!shouldAnimate) {
-        render(1);
+    if (category === 'Rice') {
+        return 'grams per person per day';
+    }
+
+    return 'kcal per person per day';
+}
+
+
+/* ==========================================
+   MAP 2: DYNAMIC LEGEND
+   ========================================== */
+
+function updateFoodLegend() {
+
+    const legend = document.getElementById('map2-legend');
+
+    if (!legend) return;
+
+    const settings = foodSettings[selectedFood];
+    const breaks = foodBreaks[selectedFood];
+
+    if (!settings || !breaks || breaks.length !== 4) {
+        legend.textContent = 'Legend unavailable.';
         return;
     }
 
-    const duration = 4200;
-    let startTime = null;
+    // Build the five class labels.
 
-    function frame(timestamp) {
-        if (startTime === null) startTime = timestamp;
 
-        const t = Math.min(
-            1,
-            (timestamp - startTime) / duration
-        );
 
-        render(t);
+    const labels = [
+            'Up to ' + formatFoodNumber(breaks[0]),
+            'Above ' + formatFoodNumber(breaks[0]) +
+                ' to ' + formatFoodNumber(breaks[1]),
+            'Above ' + formatFoodNumber(breaks[1]) +
+                ' to ' + formatFoodNumber(breaks[2]),
+            'Above ' + formatFoodNumber(breaks[2]) +
+                ' to ' + formatFoodNumber(breaks[3]),
+            'Above ' + formatFoodNumber(breaks[3])
+        ];
 
-        if (t < 1) {
-            map3AnimationFrame = requestAnimationFrame(frame);
+
+    // Clear the old legend.
+
+    legend.replaceChildren();
+
+    const heading = document.createElement('h3');
+    heading.className = 'map2-legend-title';
+    heading.textContent = settings.title;
+    legend.appendChild(heading);
+
+    const unit = document.createElement('p');
+    unit.className = 'map2-legend-unit';
+    unit.textContent = getFoodUnit(selectedFood);
+    legend.appendChild(unit);
+
+    // Create the five color rows.
+
+    settings.colors.forEach(function(color, index) {
+
+        const row = document.createElement('div');
+        row.className = 'map2-legend-row';
+
+        const swatch = document.createElement('span');
+        swatch.className = 'map2-legend-swatch';
+        swatch.style.backgroundColor = color;
+        swatch.setAttribute('aria-hidden', 'true');
+
+        const label = document.createElement('span');
+        label.textContent = labels[index];
+
+        row.appendChild(swatch);
+        row.appendChild(label);
+        legend.appendChild(row);
+
+    });
+
+    // Add a separate gray swatch for missing data.
+
+    const missingRow = document.createElement('div');
+    missingRow.className = 'map2-legend-row';
+
+    const missingSwatch = document.createElement('span');
+    missingSwatch.className = 'map2-legend-swatch';
+    missingSwatch.style.backgroundColor = noDataColor;
+    missingSwatch.setAttribute('aria-hidden', 'true');
+
+    const missingLabel = document.createElement('span');
+    missingLabel.textContent = 'No data';
+
+    missingRow.appendChild(missingSwatch);
+    missingRow.appendChild(missingLabel);
+    legend.appendChild(missingRow);
+
+    const note = document.createElement('p');
+    note.className = 'map2-legend-note';
+    note.textContent = 'All statistics shown are based on 2023 data.';
+    legend.appendChild(note);
+
+
+}
+
+
+/* ==========================================
+   MAP 2: EDUCATIONAL DESCRIPTION
+   ========================================== */
+
+function updateFoodDescription() {
+
+    const description =
+        document.getElementById('map2-description');
+
+    if (!description) return;
+
+    const settings = foodSettings[selectedFood];
+
+    description.textContent = settings
+        ? settings.description
+        : 'Explore global food patterns using 2023 data.';
+}
+
+
+/* ==========================================
+   MAP 2: UPDATE COUNTRY COLORS AND POPUPS
+   ========================================== */
+
+function updateFoodMap() {
+
+    if (!countryLayer) return;
+
+    countryLayer.eachLayer(function(layer) {
+
+        const feature = layer.feature;
+
+        const iso = String(
+            feature.properties.iso_a3 || ''
+        ).toUpperCase();
+
+        const record = foodData[selectedFood]?.[iso];
+
+        const value = record ? record.value : null;
+
+        layer.setStyle({
+            color: '#254E46',
+            weight: 1,
+            fillColor: getFoodColor(value),
+            fillOpacity: 0.85
+        });
+
+        const countryName =
+            feature.properties.name || iso;
+
+        // Build the popup with textContent to keep data safe.
+        const popup = document.createElement('div');
+        popup.className = 'map2-country-popup';
+
+        function addText(tag, className, text) {
+            const element = document.createElement(tag);
+            element.className = className;
+            element.textContent = text;
+            popup.appendChild(element);
+        }
+
+        addText('h3', 'map2-popup-country', countryName);
+        const flagCode = feature.properties.iso_a2 ||
+            (typeof map1FlagCodes !== 'undefined' ? map1FlagCodes[iso] : '');
+        if (/^[A-Za-z]{2}$/.test(flagCode || '')) {
+            const flag = document.createElement('img');
+            flag.className = 'map2-popup-flag';
+            flag.src = 'https://flagcdn.com/w80/' + flagCode.toLowerCase() + '.png';
+            flag.alt = '';
+            flag.onerror = function() { this.hidden = true; };
+            popup.appendChild(flag);
+        }
+        popup.appendChild(document.createElement('hr'));
+        addText('div', 'map2-popup-category', foodSettings[selectedFood].title);
+        if (record) {
+            addText('div', 'map2-popup-value', formatFoodNumber(record.value));
+            addText('div', 'map2-popup-unit', getFoodUnit(selectedFood));
         } else {
-            map3AnimationFrame = null;
-
-            // Leave the completed lines visible,
-            // but remove the ships at the destinations.
-            visuals.forEach(route => {
-                if (route.ship) {
-                    map3HistoricalRoutes.removeLayer(route.ship);
-                }
-            });
+            addText('div', 'map2-popup-unit', 'No data available');
         }
-    }
+        layer.bindPopup(popup, { maxWidth: 300, minWidth: 180,
+            autoPan: true, autoPanPadding: [25, 25] });
 
-    map3AnimationFrame = requestAnimationFrame(frame);
-}
-
-// Read and display historical locations for the selected food.
-function showMap3HistoricalJourney(foodId) {
-    map3CancelAnimation();
-    map3HistoricalMarkers.clearLayers();
-    map3HistoricalRoutes.clearLayers();
-
-    const stops = map3HistoricalStops
-        .filter(row =>
-            String(row['Food ID'] || '')
-                .trim()
-                .toLowerCase() === foodId
-        )
-        .map(row => ({
-            order: Number(row['Stop Order']),
-            name: row['Location Name'],
-            latitude: Number(row['Latitude']),
-            longitude: Number(row['Longitude']),
-            date: row['Approximate Date'],
-            description: row['Historical Fact / Popup Text'],
-            routeGroup: String(row['Route Group'] || '').trim()
-        }))
-        .filter(stop =>
-            Number.isFinite(stop.order) &&
-            Number.isFinite(stop.latitude) &&
-            Number.isFinite(stop.longitude) &&
-            stop.latitude >= -90 &&
-            stop.latitude <= 90 &&
-            stop.longitude >= -180 &&
-            stop.longitude <= 180
-        )
-        .sort((a, b) => a.order - b.order);
-
-    stops.forEach(stop => {
-        const popup = `
-            <strong>${map3EscapeHTML(stop.name)}</strong>
-            <br>
-            <em>${map3EscapeHTML(stop.date)}</em>
-            <br><br>
-            ${map3EscapeHTML(stop.description)}
-        `;
-
-        addMap3HistoricalMarker(
-            map3StopPosition(stop),
-            stop,
-            popup
-        );
     });
 
-    // Branch from the first stop to all later stops
-    // that belong to the same route group.
-    map3JourneyRoutes = [];
-
-    if (stops.length >= 2) {
-        const origin = stops[0];
-
-        stops.slice(1).forEach(stop => {
-            if (
-                origin.routeGroup &&
-                origin.routeGroup === stop.routeGroup
-            ) {
-                map3JourneyRoutes.push({
-                    start: map3StopPosition(origin),
-                    end: map3StopPosition(stop)
-                });
-            }
-        });
-    }
-
-    map3DrawJourney(true);
+    updateFoodLegend();
+    updateFoodDescription();
 }
 
-// Create a Replay Journey button automatically.
-function map3AddReplayButton() {
-    const controls = document.getElementById(
-        'map3-food-controls'
-    );
 
-    if (
-        !controls ||
-        document.getElementById('map3-replay-button')
-    ) {
-        return;
-    }
+/* ==========================================
+   MAP 2: LOAD CSV AND COUNTRY BOUNDARIES
+   ========================================== */
 
-    const replay = document.createElement('button');
-
-    replay.type = 'button';
-    replay.id = 'map3-replay-button';
-    replay.textContent = '⛵ Replay Journey';
-
-    replay.setAttribute(
-        'aria-label',
-        'Replay the historical journey animation'
-    );
-
-    replay.addEventListener('click', () => {
-        map3DrawJourney(true);
-    });
-
-    controls.insertAdjacentElement('afterend', replay);
-}
-
-// Display the botanical distribution and historical journey.
-function showMap3Food(foodId) {
-    map3ActiveFood = foodId;
-
-    const foodCountries = {};
-
-    map3DistributionRows.forEach(row => {
-        if (row.food_id === foodId && row.iso_a3) {
-            foodCountries[
-                row.iso_a3.trim().toUpperCase()
-            ] = row.distribution_status.trim();
-        }
-    });
-
-    if (map3DistributionLayer) {
-        map3.removeLayer(map3DistributionLayer);
-    }
-
-    map3DistributionLayer = L.geoJSON(map3WorldGeoJSON, {
-        style: feature => {
-            const status =
-                foodCountries[feature.properties.iso_a3];
-
-            let fillColor = '#F4EBD8';
-
-            if (status === 'Native') {
-                fillColor = map3Colors.native;
-            } else if (status === 'Introduced') {
-                fillColor = map3Colors.introduced;
-            }
-
-            return {
-                color: '#6B746F',
-                weight: 0.6,
-                fillColor: fillColor,
-                fillOpacity: status ? 0.7 : 0.08
-            };
-        },
-
-        onEachFeature: (feature, layer) => {
-            const countryCode = feature.properties.iso_a3;
-            const status = foodCountries[countryCode];
-
-            if (status) {
-                const countryName =
-                    feature.properties.ADMIN ||
-                    feature.properties.name ||
-                    countryCode;
-
-                layer.bindPopup(`
-                    <strong>${map3EscapeHTML(countryName)}</strong>
-                    <br>
-                    ${map3EscapeHTML(map3FoodNames[foodId])}
-                    distribution: ${map3EscapeHTML(status)}
-                    <br>
-                    <small>Source: Royal Botanic Gardens, Kew</small>
-                `);
-            }
-        }
-    }).addTo(map3);
-
-    document.getElementById(
-        'map3-legend-title'
-    ).textContent =
-        map3FoodNames[foodId] + ' Distribution';
-
-    document.querySelectorAll(
-        '.map3-food-btn'
-    ).forEach(button => {
-        const isSelected =
-            button.dataset.food === foodId;
-
-        button.classList.toggle(
-            'active',
-            isSelected
-        );
-
-        button.setAttribute(
-            'aria-pressed',
-            String(isSelected)
-        );
-    });
-
-    showMap3HistoricalJourney(foodId);
-}
-
-// Load the CSVs and GeoJSON before displaying the map.
 Promise.all([
-    fetch('Data/map3_distribution_country_codes.csv')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(
-                    'Could not load Map 3 distribution CSV'
-                );
-            }
 
-            return response.text();
-        }),
+    fetch('Data/food-map2.csv').then(response => {
+        if (!response.ok) {
+            throw new Error('Food CSV not found');
+        }
+        return response.text();
+    }),
 
-    fetch('Data/world-countries.geojson')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(
-                    'Could not load world GeoJSON'
-                );
-            }
+    fetch('Data/world-countries.geojson').then(response => {
+        if (!response.ok) {
+            throw new Error('Country GeoJSON not found');
+        }
+        return response.json();
+    })
 
-            return response.json();
-        }),
-
-    fetch('Data/map3_historical_stops.csv')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(
-                    'Could not load historical stops CSV'
-                );
-            }
-
-            return response.text();
-        })
 ])
-.then(([distributionCSV, worldGeoJSON, historicalCSV]) => {
-    map3DistributionRows = Papa.parse(distributionCSV, {
+
+.then(([csvText, countryGeoJSON]) => {
+
+    const parsed = Papa.parse(csvText, {
         header: true,
         skipEmptyLines: true
-    }).data;
-
-    map3WorldGeoJSON = worldGeoJSON;
-
-    map3HistoricalStops = Papa.parse(historicalCSV, {
-        header: true,
-        skipEmptyLines: true
-    }).data;
-
-    map3AddReplayButton();
-    showMap3Food('potato');
-
-    document.querySelectorAll(
-        '.map3-food-btn'
-    ).forEach(button => {
-        button.addEventListener('click', () => {
-            showMap3Food(button.dataset.food);
-        });
     });
 
-    console.log(
-        `🌎 Map 3 is being awesome! ${map3HistoricalStops.length} historical stops loaded!`
+    // Organize CSV records by category and country code.
+
+    parsed.data.forEach(function(originalRow) {
+
+        const row = cleanCSVRow(originalRow);
+
+        const category =
+            String(row['Food / Statistic'] || '').trim();
+
+        const year =
+            String(row['Year'] || '').trim();
+
+        const iso =
+            String(row['ISO Code'] || '').trim().toUpperCase();
+
+        const rawValue =
+            String(row['Value'] ?? '').trim();
+
+        const value = Number(rawValue);
+
+        if (
+            foodSettings[category] &&
+            year === '2023' &&
+            iso &&
+            rawValue !== '' &&
+            Number.isFinite(value)
+        ) {
+
+            if (!foodData[category]) {
+                foodData[category] = {};
+            }
+
+            foodData[category][iso] = {
+                value: value,
+                unit: String(row['Unit'] || '').trim()
+            };
+
+        }
+
+    });
+
+    // Calculate class breaks for all categories.
+
+    Object.keys(foodSettings).forEach(function(category) {
+        foodBreaks[category] = calculateBreaks(category);
+    });
+
+    // Create country polygons once.
+    // Reuse them whenever the selected statistic changes.
+
+    countryLayer = L.geoJSON(countryGeoJSON).addTo(foodMap);
+
+    // Display whichever radio button is selected.
+
+    const checkedRadio = document.querySelector(
+        'input[name="foodCategory"]:checked'
     );
 
-    console.log('📚 Learning activated!');
+    if (checkedRadio) {
+        selectedFood = checkedRadio.value;
+    }
+
+    updateFoodMap();
+
+    
+    console.log('Available categories:', Object.keys(foodData));
+    console.log('Calculated class breaks:', foodBreaks);
+
 })
-.catch(error => {
-    console.error(
-        '❌ Map 3 encountered a problem:',
-        error
-    );
+
+.catch(function(error) {
+    console.error('Map 2 loading error:', error);
 });
+
+
+/* ==========================================
+   MAP 2: RADIO BUTTON INTERACTIONS
+   ========================================== */
+
+document.querySelectorAll(
+    'input[name="foodCategory"]'
+).forEach(function(radio) {
+
+    radio.addEventListener('change', function() {
+
+        if (this.checked) {
+            selectedFood = this.value;
+            updateFoodMap();
+        }
+
+    });
+
+});
+
+console.log('🍽️ Map 2 loaded up beautifully!');
+
