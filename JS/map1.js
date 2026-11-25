@@ -288,12 +288,13 @@ dropdown.value = isoCode;
 
             const bounds = layer.getBounds();
 
-           map1.fitBounds(bounds, {
-    paddingTopLeft: [40, 160],
-    paddingBottomRight: [40, 40],
-    maxZoom: 4,
-    animate: false
-});
+            if (bounds.isValid()) {
+                map1.fitBounds(bounds, {
+                    paddingTopLeft: [40, 160],
+                    paddingBottomRight: [40, 40],
+                    maxZoom: 4,
+                    animate: false
+                });
             }
 
             layer.openPopup();
@@ -349,17 +350,9 @@ function map1DrawCountries() {
             if (data) {
 
                 layer.bindPopup(
-    map1BuildCountryHTML(data),
-    {
-        maxWidth: 320,
-        minWidth: 220,
-        maxHeight: 310,
-        autoPan: true,
-        keepInView: true,
-        autoPanPaddingTopLeft: [55, 25],
-        autoPanPaddingBottomRight: [25, 25]
-    }
-);
+                    map1BuildCountryHTML(data),
+                    { maxWidth: 320, minWidth: 220, maxHeight: 310, autoPan: true, keepInView: true, autoPanPaddingTopLeft: [55, 25], autoPanPaddingBottomRight: [25, 25] }
+                );
 
                 layer.on('click', () => {
                     map1SelectCountry(iso);
